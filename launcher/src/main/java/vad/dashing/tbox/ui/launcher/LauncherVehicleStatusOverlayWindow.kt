@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.provider.Settings
@@ -86,7 +87,7 @@ internal object LauncherVehicleStatusOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     TboxAppTheme(theme = 2) {
                         LauncherVehicleStatusDialog(

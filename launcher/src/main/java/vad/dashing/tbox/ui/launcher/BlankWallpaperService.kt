@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Context
@@ -86,7 +87,7 @@ class BlankWallpaperService : WallpaperService() {
                 bitmap.recycle()
                 Toast.makeText(
                     context,
-                    context.getString(R.string.launcher_system_wallpaper_set_success),
+                    launcherText(R.string.launcher_system_wallpaper_set_success),
                     Toast.LENGTH_SHORT,
                 ).show()
                 true
@@ -94,7 +95,7 @@ class BlankWallpaperService : WallpaperService() {
                 Log.e(TAG, "Failed to set system wallpaper", e)
                 Toast.makeText(
                     context,
-                    context.getString(
+                    launcherText(
                         R.string.launcher_system_wallpaper_set_error,
                         e.localizedMessage ?: e.message ?: "",
                     ),
@@ -166,7 +167,7 @@ class BlankWallpaperService : WallpaperService() {
 
             Toast.makeText(
                 context,
-                context.getString(R.string.launcher_system_wallpaper_open_failed),
+                launcherText(R.string.launcher_system_wallpaper_open_failed),
                 Toast.LENGTH_LONG,
             ).show()
         }

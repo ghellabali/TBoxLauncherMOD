@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.platform.LocalResources
+import vad.dashing.tbox.R
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.location.Location
@@ -202,14 +204,14 @@ internal object LauncherGpsCompassTracker {
 }
 
 private val CARDINAL_POINTS = listOf(
-    0f to "С",
-    45f to "СВ",
-    90f to "В",
-    135f to "ЮВ",
-    180f to "Ю",
-    225f to "ЮЗ",
-    270f to "З",
-    315f to "СЗ",
+    0f to R.string.compass_bearing_n,
+    45f to R.string.compass_bearing_ne,
+    90f to R.string.compass_bearing_e,
+    135f to R.string.compass_bearing_se,
+    180f to R.string.compass_bearing_s,
+    225f to R.string.compass_bearing_sw,
+    270f to R.string.compass_bearing_w,
+    315f to R.string.compass_bearing_nw,
 )
 
 const val COMPASS_OVERLAY_HEIGHT_DP = 120
@@ -276,6 +278,10 @@ fun LauncherCompassOverlay(
     var isDragging by remember { mutableStateOf(false) }
 
     val density = LocalDensity.current
+    val localizedResources = LocalResources.current
+    val cardinalLabels = remember(localizedResources) {
+        CARDINAL_POINTS.associate { (bearing, label) -> bearing to localizedResources.getString(label) }
+    }
     val paintTextFill = remember(density) {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.CENTER
@@ -454,7 +460,7 @@ fun LauncherCompassOverlay(
 
                     // Cardinal text label for 45° steps
                     if (deg % 45 == 0) {
-                        val label = CARDINAL_POINTS.firstOrNull { it.first == degF }?.second
+                        val label = cardinalLabels[degF]
                         if (label != null) {
                             val isMain = deg % 90 == 0
                             val fontSize = if (isMain) 14.dp.toPx() else 11.5.dp.toPx()

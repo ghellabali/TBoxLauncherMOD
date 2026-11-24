@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -119,7 +120,7 @@ internal object LauncherAboutOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     // Standalone launcher is dark-first.
                     TboxAppTheme(theme = 2) {

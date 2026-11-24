@@ -20,6 +20,7 @@ class LauncherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        LauncherStrings.initialize(this)
         AppContextHolder.init(this)
         vad.dashing.tbox.ui.launcher.LauncherFirstInstallDefaults.applyIfNeeded(this)
 

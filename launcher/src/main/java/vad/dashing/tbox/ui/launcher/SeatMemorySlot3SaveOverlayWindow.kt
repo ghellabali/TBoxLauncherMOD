@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -128,7 +130,7 @@ internal object SeatMemorySlot3SaveOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     SeatMemorySaveDialogContent(
                         slot = 3,
@@ -169,7 +171,7 @@ internal object SeatMemorySlot3SaveOverlayWindow {
     }
 
     private fun saveSlot3Position(context: Context) {
-        Toast.makeText(context, "Позиция сохранена в Слот 3", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_position_saved_to_slot_3), Toast.LENGTH_SHORT).show()
         val activity = LauncherHomeActivityHolder.instance ?: (context as? LauncherHomeActivity)
         val scope = activity?.lifecycleScope ?: GlobalScope
         scope.launch(Dispatchers.IO) {
@@ -226,7 +228,7 @@ private fun SeatMemorySaveDialogContent(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Настройка зеркал и сиденья (Слот $slot)",
+                    text = launcherText(R.string.label_mirror_and_seat_adjustment_slot, slot),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 17.sp,
@@ -235,7 +237,7 @@ private fun SeatMemorySaveDialogContent(
             }
 
             Text(
-                text = "Отрегулируйте зеркала и сиденье, затем нажмите «Сохранить» для записи позиции в Слот $slot.",
+                text = launcherText(R.string.label_adjust_the_mirrors_and_seat_then_tap_save_to_store_the_position_in_s, slot),
                 color = Color(0xFFD1D5DB),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,
@@ -256,7 +258,7 @@ private fun SeatMemorySaveDialogContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = "Отмена",
+                        text = launcherText(R.string.action_cancel),
                         color = Color.White,
                         fontWeight = FontWeight.Medium,
                         fontSize = 15.sp,
@@ -273,7 +275,7 @@ private fun SeatMemorySaveDialogContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = "Сохранить",
+                        text = launcherText(R.string.action_save),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,

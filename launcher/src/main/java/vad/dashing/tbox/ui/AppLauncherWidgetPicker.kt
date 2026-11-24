@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
@@ -135,7 +136,7 @@ private fun ensureOwnMonitorEntry(
     val pkg = appContext.packageName
     val monitorClass = MainActivity::class.java.name
     val homeClass = LauncherHomeActivity::class.java.name
-    val monitorLabel = appContext.getString(R.string.launcher_standalone_about_title)
+    val monitorLabel = launcherText(R.string.launcher_standalone_about_title)
     val withoutHome = entries.filterNot {
         it.packageName == pkg && it.activityName == homeClass
     }

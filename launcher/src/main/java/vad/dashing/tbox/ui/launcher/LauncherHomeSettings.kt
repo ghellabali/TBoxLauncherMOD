@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.LauncherStrings
+import vad.dashing.tbox.launcherText
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,7 +47,6 @@ import androidx.compose.ui.Alignment
 import vad.dashing.tbox.GearboxType
 import vad.dashing.tbox.valueToString
 import kotlin.math.roundToInt
-import kotlin.math.roundToInt
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -57,7 +58,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import vad.dashing.tbox.R
 import vad.dashing.tbox.SettingsManager
-import kotlin.math.roundToInt
 
 @Composable
 fun ThemeSettingsContent() {
@@ -1404,7 +1404,7 @@ private fun EdgeGesturesSettings() {
             }
 
             EdgeGestureActionPicker(
-                title = "Жест сверху (Свайп вниз)",
+                title = launcherText(R.string.label_top_edge_gesture_swipe_down),
                 currentAction = topAction,
                 onSelectAction = { LauncherAppConfigStore.setEdgeGestureActionTop(context, it) },
             )
@@ -1445,9 +1445,9 @@ private fun EdgeGestureActionPicker(
     val labelUndo = stringResource(R.string.launcher_edge_action_previous_app)
     val labelClose = stringResource(R.string.launcher_edge_action_close_all)
 
-    val builtInActions = remember(labelNone, labelHome, labelBack, labelUndo, labelClose) {
+    val builtInActions = remember(LauncherStrings.language, labelNone, labelHome, labelBack, labelUndo, labelClose) {
         listOf(
-            EDGE_GESTURE_ACTION_SHADE to "Панель управления (Шторка)",
+            EDGE_GESTURE_ACTION_SHADE to launcherText(R.string.label_control_panel_shade),
             EDGE_GESTURE_ACTION_NONE to labelNone,
             EDGE_GESTURE_ACTION_HOME to labelHome,
             EDGE_GESTURE_ACTION_BACK to labelBack,
@@ -1457,7 +1457,7 @@ private fun EdgeGestureActionPicker(
     }
 
     val desktopItems = remember(context) { LauncherHomeStore.loadItems(context) }
-    val desktopActions = remember(context, desktopItems) {
+    val desktopActions = remember(LauncherStrings.language, context, desktopItems) {
         val pm = context.packageManager
         desktopItems.mapNotNull { item ->
             val key = "shortcut:${item.key}"
@@ -1470,13 +1470,13 @@ private fun EdgeGestureActionPicker(
                 }
                 is LauncherHomeItem.Split -> {
                     val preset = LauncherSplitPresetStore.loadPresets(context).firstOrNull { it.id == item.presetId }
-                    preset?.name?.ifBlank { null } ?: "Сплит: ${item.presetId}"
+                    preset?.displayName?.ifBlank { null } ?: launcherText(R.string.label_split_screen, item.presetId)
                 }
                 is LauncherHomeItem.TbmAutomation -> {
                     item.automationName.ifBlank { "TBM: ${item.automationId}" }
                 }
             }
-            key to "Ярлык: $label"
+            key to launcherText(R.string.label_shortcut, label)
         }
     }
 
@@ -1758,7 +1758,7 @@ private fun AdasAccSpeedOffsetSlider() {
                 fontSize = 16.sp,
             )
             Text(
-                text = "+${offsetKm.roundToInt()} km/h",
+                text = "+${offsetKm.roundToInt()} ${stringResource(R.string.unit_kmh)}",
                 color = LauncherColors.TextSecondary,
                 fontSize = 16.sp,
             )
@@ -2183,7 +2183,7 @@ fun CruiseControlSettingsContent() {
                     modifier = Modifier.weight(1f),
                 )
                 LauncherSettingsOptionButton(
-                    text = "Manual",
+                    text = launcherText(R.string.label_manual),
                     selected = gearboxType == GearboxType.MANUAL,
                     onClick = {
                         LauncherAppConfigStore.setGearboxType(context, GearboxType.MANUAL)
@@ -2453,7 +2453,7 @@ private fun MiniatureChassis() {
     ) {
         MiniButton("ESC", fontSize = 8.sp, modifier = Modifier.weight(1f))
         MiniButton("HDC", fontSize = 8.sp, modifier = Modifier.weight(1f))
-        MiniButton("HOLD", fontSize = 7.sp, modifier = Modifier.weight(1f))
+        MiniButton(stringResource(R.string.badge_hold), fontSize = 7.sp, modifier = Modifier.weight(1f))
     }
 }
 
@@ -2466,11 +2466,11 @@ private fun MiniatureLights() {
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MiniButton("AUTO", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-        MiniButton("LOW", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-        MiniButton("POS", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-        MiniButton("OFF", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-        MiniButton("FOG", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+        MiniButton(stringResource(R.string.launcher_vs_climate_auto), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+        MiniButton(launcherText(R.string.label_low), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+        MiniButton(stringResource(R.string.badge_position_lights), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+        MiniButton(launcherText(R.string.launcher_vs_sim_threat_off), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+        MiniButton(launcherText(R.string.label_fog), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
     }
 }
 
@@ -2483,8 +2483,8 @@ private fun MiniatureWipers() {
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MiniButton("Сервис", fontSize = 8.sp, modifier = Modifier.weight(1f))
-        MiniButton("Авто", fontSize = 8.sp, modifier = Modifier.weight(1f))
+        MiniButton(launcherText(R.string.label_service), fontSize = 8.sp, modifier = Modifier.weight(1f))
+        MiniButton(launcherText(R.string.launcher_vs_headlights_auto), fontSize = 8.sp, modifier = Modifier.weight(1f))
     }
 }
 
@@ -2543,8 +2543,8 @@ private fun AdasAssistCompositeMiniature() {
             MiniButton("120", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("DIST", fontSize = 7.sp, modifier = Modifier.weight(1f))
-            MiniButton("Умный", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_distance), fontSize = 7.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_smart), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -2559,16 +2559,16 @@ private fun AdasDriveModeCompositeMiniature() {
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("ECO", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("COMF", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("SPORT", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_eco), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_comfort), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_sport), fontSize = 5.5.sp, modifier = Modifier.weight(1f))
             MiniButton("SP+", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("Снег", fontSize = 6.sp, modifier = Modifier.weight(1f))
-            MiniButton("Грязь", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("Песок", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("Бездор", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_snow), fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_mud), fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_sand), fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_off_road), fontSize = 5.5.sp, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -2583,18 +2583,18 @@ private fun AdasBodyControlsCompositeMiniature() {
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("DRV1", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("DRV2", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("DRV3", fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_driver_slot, 1), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_driver_slot, 2), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton(stringResource(R.string.badge_driver_slot, 3), fontSize = 6.5.sp, modifier = Modifier.weight(1f))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("Багаж", fontSize = 6.sp, modifier = Modifier.weight(1f))
-            MiniButton("Окна", fontSize = 6.sp, modifier = Modifier.weight(1f))
-            MiniButton("Зерк", fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.launcher_vs_tailgate), fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_windows), fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_mirror), fontSize = 6.sp, modifier = Modifier.weight(1f))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("Зеркала", fontSize = 6.sp, modifier = Modifier.weight(1f))
-            MiniButton("Пасс", fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.label_mirrors), fontSize = 6.sp, modifier = Modifier.weight(1f))
+            MiniButton(launcherText(R.string.launcher_climate_zone_passenger), fontSize = 6.sp, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -2611,12 +2611,12 @@ private fun AdasCamdControlsCompositeMiniature() {
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("CAM ◄►", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("CAM ▲▼", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
-            MiniButton("CAM 360", textColor = blue, borderColor = blue, fontSize = 5.5.sp, modifier = Modifier.weight(1.1f))
+            MiniButton("${stringResource(R.string.badge_camera)} ◄►", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton("${stringResource(R.string.badge_camera)} ▲▼", fontSize = 5.5.sp, modifier = Modifier.weight(1f))
+            MiniButton("${stringResource(R.string.badge_camera)} 360", textColor = blue, borderColor = blue, fontSize = 5.5.sp, modifier = Modifier.weight(1.1f))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            MiniButton("● REC", textColor = red, borderColor = red, fontSize = 6.5.sp, modifier = Modifier.weight(1f))
+            MiniButton("● ${stringResource(R.string.badge_recording)}", textColor = red, borderColor = red, fontSize = 6.5.sp, modifier = Modifier.weight(1f))
             MiniButton("SOS", textColor = red, fontSize = 6.5.sp, modifier = Modifier.weight(1f))
         }
     }
@@ -2630,18 +2630,18 @@ private fun AdasPanelsSelectorSection() {
         LauncherAppConfigStore.enabledAdasPanels(context)
     }
 
-    val panelItems = remember {
+    val panelItems = remember(LauncherStrings.language) {
         listOf(
             // Row 1
             AdasPanelSelectorItem(
                 id = "assist",
-                title = "ACC + NGP + Пресеты",
+                title = launcherText(R.string.label_acc_ngp_presets),
                 isComposite = true,
                 content = { AdasAssistCompositeMiniature() },
             ),
             AdasPanelSelectorItem(
                 id = "acc_presets",
-                title = "ACC + Пресеты",
+                title = launcherText(R.string.label_acc_presets),
                 isComposite = false,
                 content = { MiniatureAccPresets() },
             ),
@@ -2653,7 +2653,7 @@ private fun AdasPanelsSelectorSection() {
             ),
             AdasPanelSelectorItem(
                 id = "lanes",
-                title = "Полосы (LKA/LDW)",
+                title = launcherText(R.string.label_lane_assist_lka_ldw),
                 isComposite = false,
                 content = { MiniatureLanes() },
             ),
@@ -2661,25 +2661,25 @@ private fun AdasPanelsSelectorSection() {
             // Row 2
             AdasPanelSelectorItem(
                 id = "drive_mode",
-                title = "Режимы движения",
+                title = launcherText(R.string.label_drive_modes),
                 isComposite = true,
                 content = { AdasDriveModeCompositeMiniature() },
             ),
             AdasPanelSelectorItem(
                 id = "chassis",
-                title = "Шасси (ESC/HOLD)",
+                title = launcherText(R.string.label_chassis_esc_hold),
                 isComposite = false,
                 content = { MiniatureChassis() },
             ),
             AdasPanelSelectorItem(
                 id = "radars",
-                title = "Радары (BSD/RAD)",
+                title = launcherText(R.string.label_radars_bsd_rad),
                 isComposite = false,
                 content = { MiniatureRadars() },
             ),
             AdasPanelSelectorItem(
                 id = "lights",
-                title = "Свет",
+                title = launcherText(R.string.launcher_vs_sim_lights_header),
                 isComposite = false,
                 content = { MiniatureLights() },
             ),
@@ -2687,25 +2687,25 @@ private fun AdasPanelsSelectorSection() {
             // Row 3
             AdasPanelSelectorItem(
                 id = "body_controls",
-                title = "Кузов и сиденья",
+                title = launcherText(R.string.label_body_and_seats),
                 isComposite = true,
                 content = { AdasBodyControlsCompositeMiniature() },
             ),
             AdasPanelSelectorItem(
                 id = "wipers",
-                title = "Дворники",
+                title = launcherText(R.string.launcher_adas_wiper),
                 isComposite = false,
                 content = { MiniatureWipers() },
             ),
             AdasPanelSelectorItem(
                 id = "car_color",
-                title = "Цвет кузова",
+                title = launcherText(R.string.launcher_paint_picker_title),
                 isComposite = false,
                 content = { MiniatureCarColor() },
             ),
             AdasPanelSelectorItem(
                 id = "camd_controls",
-                title = "Камеры / Регистратор",
+                title = launcherText(R.string.label_cameras_recorder),
                 isComposite = true,
                 content = { AdasCamdControlsCompositeMiniature() },
             ),
@@ -2714,14 +2714,14 @@ private fun AdasPanelsSelectorSection() {
 
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Text(
-            text = "Панели",
+            text = launcherText(R.string.label_panels),
             color = LauncherColors.TextPrimary,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 2.dp),
         )
         Text(
-            text = "Выберите панели для быстрого меню ADAS (синяя рамка — выбрана)",
+            text = launcherText(R.string.label_select_panels_for_adas_quick_settings_a_blue_border_marks_selected_p),
             color = LauncherColors.TextMuted,
             fontSize = 12.sp,
             modifier = Modifier.padding(bottom = 8.dp),
@@ -2946,14 +2946,14 @@ private fun CruisePresetsSettings() {
             )
         }
         CruiseIntervalSliderRow(
-            title = "RES+ delay (+1 km/h)",
+            title = launcherText(R.string.label_res_delay_1_km_h),
             valueMs = incInterval,
             onChange = { next ->
                 LauncherAppConfigStore.setCruiseIncreaseIntervalMs(context, next)
             },
         )
         CruiseIntervalSliderRow(
-            title = "SET- delay (-1 km/h)",
+            title = launcherText(R.string.label_set_delay_1_km_h),
             valueMs = decInterval,
             onChange = { next ->
                 LauncherAppConfigStore.setCruiseDecreaseIntervalMs(context, next)
@@ -3143,12 +3143,12 @@ private fun HiddenAppsSettings() {
     if (hidden.isNotEmpty()) {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
-                text = "Скрытые приложения (${hidden.size})",
+                text = launcherText(R.string.label_hidden_apps, hidden.size),
                 color = LauncherColors.TextPrimary,
                 fontSize = 16.sp,
             )
             Text(
-                text = "Приложения, скрытые из рабочего стола и поиска",
+                text = launcherText(R.string.label_apps_hidden_from_the_home_screen_and_search),
                 color = LauncherColors.TextMuted,
                 fontSize = 12.sp,
             )
@@ -3158,7 +3158,7 @@ private fun HiddenAppsSettings() {
                 },
             ) {
                 Text(
-                    text = "Показать все скрытые приложения",
+                    text = launcherText(R.string.label_show_all_hidden_apps),
                     color = LauncherColors.AccentCyan,
                     fontSize = 13.sp,
                 )

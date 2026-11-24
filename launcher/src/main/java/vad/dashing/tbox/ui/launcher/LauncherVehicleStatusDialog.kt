@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -128,30 +129,30 @@ internal data class LauncherVehicleStatusDetailItem(
 
 private val LauncherAlertId.detailDescription: String
     get() = when (this) {
-        LauncherAlertId.SeatBeltDriver -> "Водитель не пристёгнут. Зафиксируйте ремень безопасности перед началом движения."
-        LauncherAlertId.SeatBeltPassenger -> "Передний пассажир не пристёгнут. Зафиксируйте ремень безопасности."
-        LauncherAlertId.SeatBeltRearLeft -> "Пассажир на заднем левом сиденье не пристёгнут."
-        LauncherAlertId.SeatBeltRearMid -> "Пассажир на заднем среднем сиденье не пристёгнут."
-        LauncherAlertId.SeatBeltRearRight -> "Пассажир на заднем правом сиденье не пристёгнут."
-        LauncherAlertId.DoorDriver -> "Водительская дверь не закрыта полностью."
-        LauncherAlertId.DoorPassenger -> "Передняя пассажирская дверь не закрыта полностью."
-        LauncherAlertId.DoorRearLeft -> "Задняя левая дверь не закрыта полностью."
-        LauncherAlertId.DoorRearRight -> "Задняя правая дверь не закрыта полностью."
-        LauncherAlertId.HoodOpen -> "Крышка капота неплотно закрыта. Проверьте фиксацию защёлки."
-        LauncherAlertId.TrunkOpen -> "Дверь багажного отделения открыта."
-        LauncherAlertId.TirePressure -> "Давление в колёсах ниже установленного порога."
-        LauncherAlertId.TireTemperature -> "Температура в шинах ниже нормы. Прогрейте шины при движении."
-        LauncherAlertId.LowFuel -> "Минимальный остаток топлива в баке. Пополните запас топлива."
-        LauncherAlertId.Speeding -> "Текущая скорость превышает установленное ограничение."
-        LauncherAlertId.HighTemperature -> "Высокая температура охлаждающей жидкости. Остановите движение и дайте двигателю остыть."
-        LauncherAlertId.PressBrake -> "Для продолжения или смены режима нажмите педаль тормоза."
-        LauncherAlertId.SysFault -> "Зафиксирована ошибка системы управления ICM или блоков CAN."
-        LauncherAlertId.BattFault -> "Неисправность аккумулятора 12V или системы контроля батареи."
-        LauncherAlertId.ChargeFault -> "Ошибка процесса зарядки АКБ или генератора."
-        LauncherAlertId.HvFaultStop -> "Критический сбой высоковольтной системы HV. Требуется остановка и сервисная диагностика."
-        LauncherAlertId.PowerModeFail -> "Ошибка переключения режимов питания Power Mode."
-        LauncherAlertId.LowBatterySoc -> "Низкий уровень заряда аккумулятора (Low SOC)."
-        LauncherAlertId.KeyBatteryLow -> "Низкий уровень заряда батарейки смарт-ключа (CR2032). Требуется замена."
+        LauncherAlertId.SeatBeltDriver -> launcherText(R.string.label_driver_seat_belt_unfastened_fasten_it_before_driving)
+        LauncherAlertId.SeatBeltPassenger -> launcherText(R.string.label_front_passenger_seat_belt_unfastened_fasten_the_seat_belt)
+        LauncherAlertId.SeatBeltRearLeft -> launcherText(R.string.label_rear_left_passenger_seat_belt_unfastened)
+        LauncherAlertId.SeatBeltRearMid -> launcherText(R.string.label_rear_center_passenger_seat_belt_unfastened)
+        LauncherAlertId.SeatBeltRearRight -> launcherText(R.string.label_rear_right_passenger_seat_belt_unfastened)
+        LauncherAlertId.DoorDriver -> launcherText(R.string.label_driver_door_is_not_fully_closed)
+        LauncherAlertId.DoorPassenger -> launcherText(R.string.label_front_passenger_door_is_not_fully_closed)
+        LauncherAlertId.DoorRearLeft -> launcherText(R.string.label_rear_left_door_is_not_fully_closed)
+        LauncherAlertId.DoorRearRight -> launcherText(R.string.label_rear_right_door_is_not_fully_closed)
+        LauncherAlertId.HoodOpen -> launcherText(R.string.label_hood_is_not_fully_closed_check_the_latch)
+        LauncherAlertId.TrunkOpen -> launcherText(R.string.label_trunk_is_open)
+        LauncherAlertId.TirePressure -> launcherText(R.string.label_tire_pressure_is_below_the_configured_threshold)
+        LauncherAlertId.TireTemperature -> launcherText(R.string.label_tire_temperature_is_below_normal_allow_the_tires_to_warm_up_while_dr)
+        LauncherAlertId.LowFuel -> launcherText(R.string.label_fuel_level_is_very_low_refuel_the_vehicle)
+        LauncherAlertId.Speeding -> launcherText(R.string.label_vehicle_speed_exceeds_the_set_limit)
+        LauncherAlertId.HighTemperature -> launcherText(R.string.label_coolant_temperature_is_high_stop_driving_and_let_the_engine_cool)
+        LauncherAlertId.PressBrake -> launcherText(R.string.label_press_the_brake_pedal_to_continue_or_change_mode)
+        LauncherAlertId.SysFault -> launcherText(R.string.label_icm_or_can_control_module_fault_detected)
+        LauncherAlertId.BattFault -> launcherText(R.string.label_12_v_battery_or_battery_monitoring_system_fault)
+        LauncherAlertId.ChargeFault -> launcherText(R.string.label_battery_charging_or_alternator_fault)
+        LauncherAlertId.HvFaultStop -> launcherText(R.string.label_critical_high_voltage_system_fault_stop_the_vehicle_and_have_it_insp)
+        LauncherAlertId.PowerModeFail -> launcherText(R.string.label_power_mode_switching_fault)
+        LauncherAlertId.LowBatterySoc -> launcherText(R.string.label_battery_charge_is_low_low_soc)
+        LauncherAlertId.KeyBatteryLow -> launcherText(R.string.label_smart_key_battery_is_low_replace_the_cr2032_battery)
     }
 
 @Composable
@@ -192,10 +193,10 @@ internal fun rememberVehicleStatusDetailItems(): List<LauncherVehicleStatusDetai
         }
 
         val corners = listOf(
-            "Переднее левое" to effectiveTires.fl,
-            "Переднее правое" to effectiveTires.fr,
-            "Заднее левое" to effectiveTires.rl,
-            "Заднее правое" to effectiveTires.rr,
+            launcherText(R.string.label_front_left) to effectiveTires.fl,
+            launcherText(R.string.label_front_right) to effectiveTires.fr,
+            launcherText(R.string.label_rear_left) to effectiveTires.rl,
+            launcherText(R.string.label_rear_right) to effectiveTires.rr,
         )
         val lowPressureCorners = corners.filter { it.second.isLowPressure(tirePressureLowThreshold) }
         lowPressureCorners.forEach { (cornerName, wheel) ->
@@ -203,8 +204,8 @@ internal fun rememberVehicleStatusDetailItems(): List<LauncherVehicleStatusDetai
             val press = wheel.pressureBar?.let { "${valueToString(it, accuracy)} bar" } ?: "—"
             add(
                 LauncherVehicleStatusDetailItem(
-                    title = "Низкое давление: $cornerName",
-                    description = "Текущее давление $press ниже установленного порога (${valueToString(tirePressureLowThreshold, 1)} bar). Проверьте колесо.",
+                    title = launcherText(R.string.label_low_pressure, cornerName),
+                    description = launcherText(R.string.label_current_pressure_is_below_the_threshold_bar_check_the_tire, press, valueToString(tirePressureLowThreshold, 1)),
                     severity = LauncherAlertSeverity.Critical,
                 )
             )
@@ -216,8 +217,8 @@ internal fun rememberVehicleStatusDetailItems(): List<LauncherVehicleStatusDetai
                 val tempStr = wheel.temperatureC?.let { "$it°C" } ?: "—"
                 add(
                     LauncherVehicleStatusDetailItem(
-                        title = "Низкая температура: $cornerName",
-                        description = "Текущая температура $tempStr слишком низкая. Рекомендуется прогреть шины при плавном движении.",
+                        title = launcherText(R.string.label_low_temperature, cornerName),
+                        description = launcherText(R.string.label_current_temperature_is_too_low_drive_gently_while_the_tires_warm_up, tempStr),
                         severity = LauncherAlertSeverity.Warning,
                     )
                 )
@@ -227,8 +228,8 @@ internal fun rememberVehicleStatusDetailItems(): List<LauncherVehicleStatusDetai
         if (adas.srrSystem == LauncherSrrSystemState.Fault) {
             add(
                 LauncherVehicleStatusDetailItem(
-                    title = "Ошибка боковых радаров (SRR)",
-                    description = "Неисправность или перекрытие датчиков слепых зон.",
+                    title = launcherText(R.string.label_side_radar_fault_srr),
+                    description = launcherText(R.string.label_blind_spot_sensors_are_obstructed_or_faulty),
                     severity = LauncherAlertSeverity.Critical,
                 )
             )
@@ -262,7 +263,7 @@ internal fun LauncherVehicleStatusDialog(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Состояние систем авто",
+                    text = launcherText(R.string.label_vehicle_system_status),
                     color = LauncherColors.TextPrimary,
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold,
@@ -270,7 +271,7 @@ internal fun LauncherVehicleStatusDialog(
                 when (status) {
                     LauncherVehicleHealthStatus.Ok -> {
                         Text(
-                            text = "Good",
+                            text = launcherText(R.string.label_good),
                             color = Color(0xFF9CA3AF),
                             fontSize = 26.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -278,7 +279,7 @@ internal fun LauncherVehicleStatusDialog(
                     }
                     LauncherVehicleHealthStatus.Warning -> {
                         Text(
-                            text = "Warning",
+                            text = launcherText(R.string.launcher_vehicle_status_warning),
                             color = Color(0xFFF59E0B),
                             fontSize = 26.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -286,7 +287,7 @@ internal fun LauncherVehicleStatusDialog(
                     }
                     LauncherVehicleHealthStatus.Error -> {
                         Text(
-                            text = "Error",
+                            text = launcherText(R.string.label_error),
                             color = Color(0xFFEF4444),
                             fontSize = 26.sp,
                             fontWeight = FontWeight.Bold,
@@ -329,7 +330,7 @@ internal fun LauncherVehicleStatusDialog(
                                 )
                             }
                             Text(
-                                text = "Тут нечего смотреть, у Дашки всё отлично!",
+                                text = launcherText(R.string.label_all_vehicle_systems_are_ok),
                                 color = LauncherColors.TextPrimary,
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.SemiBold,

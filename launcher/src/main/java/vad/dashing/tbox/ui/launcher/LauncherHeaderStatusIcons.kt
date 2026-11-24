@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.Manifest
 import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
@@ -67,7 +68,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -131,7 +131,6 @@ import vad.dashing.tbox.ui.sendToggleRearFogLight
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 private val StatusIconTint: Color
     get() = if (LauncherThemeState.darkTheme) Color.White else Color(0xFF111827)
@@ -522,11 +521,12 @@ internal fun LauncherTopHeaderBar(
             delay(1_000L - (now % 1_000L))
         }
     }
-    val timeText = remember(clockNowMs) {
-        SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(clockNowMs))
+    val displayLocale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
+    val timeText = remember(clockNowMs, displayLocale) {
+        SimpleDateFormat("HH:mm", displayLocale).format(Date(clockNowMs))
     }
-    val dateText = remember(clockNowMs) {
-        SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(Date(clockNowMs))
+    val dateText = remember(clockNowMs, displayLocale) {
+        SimpleDateFormat("EEE, d MMM", displayLocale).format(Date(clockNowMs))
     }
 
     Row(
@@ -1063,7 +1063,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_temp_up),
-                    contentDescription = "Температура снаружи",
+                    contentDescription = launcherText(R.string.data_title_outside_temperature),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1081,7 +1081,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_temp_down),
-                    contentDescription = "Температура в салоне",
+                    contentDescription = launcherText(R.string.label_cabin_temperature),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1101,7 +1101,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_temp_combined),
-                    contentDescription = "Температура снаружи и в салоне",
+                    contentDescription = launcherText(R.string.label_outside_and_cabin_temperatures),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1121,7 +1121,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_leaf),
-                    contentDescription = "Качество воздуха PM 2.5",
+                    contentDescription = launcherText(R.string.label_air_quality_pm2_5),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1148,7 +1148,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_fuel_drop),
-                    contentDescription = "Средний расход",
+                    contentDescription = launcherText(R.string.label_average_consumption),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1183,7 +1183,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_trip_cost),
-                    contentDescription = "Стоимость поездки",
+                    contentDescription = launcherText(R.string.label_trip_cost),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1210,7 +1210,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_engine_temp),
-                    contentDescription = "Температура двигателя",
+                    contentDescription = launcherText(R.string.data_title_engine_temperature),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1229,7 +1229,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_gearbox_temp),
-                    contentDescription = "Температура коробки передач",
+                    contentDescription = launcherText(R.string.label_transmission_temperature),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1259,7 +1259,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_trip_duration),
-                    contentDescription = "Время поездки",
+                    contentDescription = launcherText(R.string.label_trip_time),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1310,7 +1310,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_trip_distance),
-                    contentDescription = "Пробег",
+                    contentDescription = launcherText(R.string.trips_distance),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1382,7 +1382,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_cpu),
-                    contentDescription = "ЦП",
+                    contentDescription = launcherText(R.string.label_cpu),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1400,7 +1400,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_ram),
-                    contentDescription = "ОЗУ",
+                    contentDescription = launcherText(R.string.label_ram),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1445,7 +1445,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_maintenance),
-                    contentDescription = "Пробег до ТО",
+                    contentDescription = launcherText(R.string.label_distance_to_service),
                     modifier = Modifier.size(indicatorIconSizeDp),
                     colorFilter = ColorFilter.tint(IndicatorIconTint),
                 )
@@ -1467,9 +1467,9 @@ private fun RenderTopBarItemContent(
         itemId == "vehicle_status" -> {
             val status = rememberVehicleHealthStatus()
             val (labelText, statusTint) = when (status) {
-                LauncherVehicleHealthStatus.Ok -> "Good" to IndicatorIconTint
-                LauncherVehicleHealthStatus.Warning -> "Warning" to Color(0xFFF59E0B)
-                LauncherVehicleHealthStatus.Error -> "Error" to Color(0xFFEF4444)
+                LauncherVehicleHealthStatus.Ok -> launcherText(R.string.label_good) to IndicatorIconTint
+                LauncherVehicleHealthStatus.Warning -> launcherText(R.string.launcher_vehicle_status_warning) to Color(0xFFF59E0B)
+                LauncherVehicleHealthStatus.Error -> launcherText(R.string.label_error) to Color(0xFFEF4444)
             }
             val pulseAlpha = if (status == LauncherVehicleHealthStatus.Error) {
                 val infiniteTransition = rememberInfiniteTransition(label = "vehicle_status_pulse")
@@ -1546,7 +1546,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_trunk),
-                    contentDescription = "Багажник",
+                    contentDescription = launcherText(R.string.launcher_vs_sim_tailgate),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(LauncherColors.TextPrimary),
                 )
@@ -1568,7 +1568,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(if (isDark) R.drawable.ic_theme_moon else R.drawable.ic_theme_sun),
-                    contentDescription = "Тема",
+                    contentDescription = launcherText(R.string.theme_open_confirm_title),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(LauncherColors.TextPrimary),
                 )
@@ -1595,7 +1595,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_mirror),
-                    contentDescription = "Складывание зеркал",
+                    contentDescription = launcherText(R.string.launcher_vs_mirror_autofold),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(
                         if (mirrorsFolded) Color.White else LauncherColors.TextPrimary
@@ -1624,7 +1624,7 @@ private fun RenderTopBarItemContent(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = "HOLD",
+                    text = stringResource(R.string.badge_hold),
                     color = holdTextColor,
                     fontSize = (buttonDiameterDp * 0.26f).sp,
                     fontWeight = if (avhActive) FontWeight.Bold else FontWeight.Medium,
@@ -1658,7 +1658,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_widget_parking_radar),
-                    contentDescription = "Парктроники",
+                    contentDescription = launcherText(R.string.label_parking_sensors),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(
                         if (pdcActive) Color.White else LauncherColors.TextPrimary
@@ -1687,7 +1687,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_rear_fog),
-                    contentDescription = "Задняя ПТФ",
+                    contentDescription = launcherText(R.string.label_rear_fog_light),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(
                         if (fogActive) Color.White else LauncherColors.TextPrimary
@@ -1716,7 +1716,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_hdc),
-                    contentDescription = "Помощь на спуске",
+                    contentDescription = launcherText(R.string.label_hill_descent_assist),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(
                         if (hdcActive) Color.White else LauncherColors.TextPrimary
@@ -1740,7 +1740,7 @@ private fun RenderTopBarItemContent(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_avm),
-                    contentDescription = "Камеры 360",
+                    contentDescription = launcherText(R.string.label_360_cameras),
                     modifier = Modifier.size((buttonDiameterDp * 0.55f).dp),
                     colorFilter = ColorFilter.tint(LauncherColors.TextPrimary),
                 )
@@ -2257,7 +2257,7 @@ internal fun LauncherTopBarModemCellularWidget(
             }
             Image(
                 painter = painterResource(signalRes),
-                contentDescription = "Сотовая связь модема",
+                contentDescription = launcherText(R.string.label_modem_cellular_signal),
                 modifier = Modifier.size(indicatorIconSizeDp),
                 colorFilter = ColorFilter.tint(IndicatorIconTint),
             )
@@ -2309,11 +2309,11 @@ internal fun LauncherTopBarRecWidget(
             painter = painterResource(
                 if (isRecording) R.drawable.ic_camd_rec_active else R.drawable.ic_camd_rec_idle,
             ),
-            contentDescription = "Rec",
+            contentDescription = launcherText(R.string.label_rec_2),
             modifier = Modifier.size(indicatorIconSizeDp),
         )
         Text(
-            text = "Rec",
+            text = stringResource(R.string.badge_recording),
             color = if (isRecording) Color(0xFFEF4444) else LauncherColors.TextMuted,
             style = textStyle,
         )

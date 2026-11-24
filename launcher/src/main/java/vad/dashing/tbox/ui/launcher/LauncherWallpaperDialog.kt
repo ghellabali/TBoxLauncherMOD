@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -240,7 +241,7 @@ private fun WallpaperThemeSection(
             }
         } else {
             Text(
-                text = "Обои по умолчанию",
+                text = launcherText(R.string.label_default_wallpaper),
                 color = LauncherColors.TextSecondary,
                 fontSize = 12.sp,
             )

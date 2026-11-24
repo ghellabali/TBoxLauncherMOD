@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -110,7 +111,7 @@ internal object LauncherDockSlotPickerOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     val isDark = LauncherThemeState.darkTheme
                     TboxAppTheme(theme = if (isDark) 2 else 1) {

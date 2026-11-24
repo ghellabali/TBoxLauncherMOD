@@ -10,7 +10,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -83,7 +82,7 @@ class LauncherHomeActivity : ComponentActivity() {
         })
 
         // 1. Initial minimal HOME frame: immediate background & UI composition
-        setContent {
+        setLauncherContent {
             DisposableEffect(Unit) {
                 onDispose { disposeAppLauncherPickerIconCache() }
             }

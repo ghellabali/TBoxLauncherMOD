@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.graphics.Rect
 import android.widget.Toast
@@ -63,7 +64,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInWindow
@@ -549,12 +549,12 @@ fun LauncherRightPanel(
         val hiddenApps = remember(rawApps, hidden) { rawApps.filter { it.packageName in hidden } }
         LauncherDarkAlertDialog(
             onDismissRequest = { showHiddenDialogVisible = false },
-            title = { Text("Скрытые приложения") },
+            title = { Text(launcherText(R.string.label_hidden_apps_2)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (hiddenApps.isEmpty() && hidden.isEmpty()) {
                         Text(
-                            text = "Нет скрытых приложений",
+                            text = launcherText(R.string.label_no_hidden_apps),
                             color = LauncherColors.TextMuted,
                             fontSize = 13.sp,
                         )
@@ -608,7 +608,7 @@ fun LauncherRightPanel(
                                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
                                     ) {
                                         Text(
-                                            text = "Показать",
+                                            text = launcherText(R.string.label_show),
                                             color = LauncherColors.AccentCyan,
                                             fontSize = 12.sp,
                                         )
@@ -625,7 +625,7 @@ fun LauncherRightPanel(
                             modifier = Modifier.fillMaxWidth(),
                         ) {
                             Text(
-                                text = "Показать все скрытые",
+                                text = launcherText(R.string.label_show_all_hidden_apps),
                                 color = LauncherColors.AccentCyan,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -1160,7 +1160,7 @@ fun LauncherRightPanel(
                     painter = painterResource(
                         if (isDark) R.drawable.ic_theme_sun else R.drawable.ic_theme_moon
                     ),
-                    contentDescription = if (isDark) "Переключить на светлую тему" else "Переключить на тёмную тему",
+                    contentDescription = if (isDark) launcherText(R.string.label_switch_to_light_theme) else launcherText(R.string.label_switch_to_dark_theme),
                     modifier = Modifier.size(22.dp),
                     colorFilter = ColorFilter.tint(
                         if (isDark) Color(0xFFF59E0B) else Color(0xFF475569)
@@ -1552,12 +1552,12 @@ fun LauncherRightPanel(
             val hiddenApps = remember(rawApps, hidden) { rawApps.filter { it.packageName in hidden } }
             LauncherDarkAlertDialog(
                 onDismissRequest = { showHiddenDialogVisible = false },
-                title = { Text("Скрытые приложения") },
+                title = { Text(launcherText(R.string.label_hidden_apps_2)) },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         if (hiddenApps.isEmpty() && hidden.isEmpty()) {
                             Text(
-                                text = "Нет скрытых приложений",
+                                text = launcherText(R.string.label_no_hidden_apps),
                                 color = LauncherColors.TextMuted,
                                 fontSize = 13.sp,
                             )
@@ -1611,7 +1611,7 @@ fun LauncherRightPanel(
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
                                         ) {
                                             Text(
-                                                text = "Показать",
+                                                text = launcherText(R.string.label_show),
                                                 color = LauncherColors.AccentCyan,
                                                 fontSize = 12.sp,
                                             )
@@ -1628,7 +1628,7 @@ fun LauncherRightPanel(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Text(
-                                    text = "Показать все скрытые",
+                                    text = launcherText(R.string.label_show_all_hidden_apps),
                                     color = LauncherColors.AccentCyan,
                                     fontWeight = FontWeight.Bold,
                                 )
@@ -1816,8 +1816,8 @@ private fun LauncherDraggableHomeDockEntry(
                 onClick = {
                     if (!isDragMode) {
                         val tbmRepo = TbmRepositoryProvider.get(context)
-                        val execMsg = context.getString(R.string.launcher_tbm_automation_executed, entry.name)
-                        val failMsg = context.getString(R.string.launcher_tbm_automation_failed, entry.name, "Error")
+                        val execMsg = launcherText(R.string.launcher_tbm_automation_executed, entry.name)
+                        val failMsg = launcherText(R.string.launcher_tbm_automation_failed, entry.name, launcherText(R.string.label_error))
                         kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main).launch {
                             val res = tbmRepo.runAutomation(entry.automationId)
                             if (res.getOrDefault(false)) {
@@ -1851,7 +1851,7 @@ private fun LauncherDraggableHomeDockEntry(
                 if (isDragMode) {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = "Добавить иконку",
+                        contentDescription = launcherText(R.string.launcher_grid_add_icon_cd),
                         tint = LauncherColors.AccentCyan.copy(alpha = 0.8f),
                         modifier = Modifier.size((22 * iconScale).dp),
                     )
@@ -1921,7 +1921,7 @@ private fun LauncherTbmAutoDockIcon(
         ) {
             Icon(
                 imageVector = resolveTbmIconVector(iconName),
-                contentDescription = name.ifBlank { "Автоматизация" },
+                contentDescription = name.ifBlank { launcherText(R.string.label_automation) },
                 tint = iconColor,
                 modifier = Modifier.size(((if (name.isNotBlank()) 28f else 34f) * iconScale).dp),
             )
@@ -2500,7 +2500,7 @@ private fun LauncherVehicleStatusSquareCard(
             LauncherVehicleHealthStatus.Ok -> {
                 Icon(
                     painter = painterResource(R.drawable.ic_status_checked),
-                    contentDescription = "Good",
+                    contentDescription = launcherText(R.string.label_good),
                     modifier = Modifier.size(28.dp),
                     tint = Color(0xFF22C55E),
                 )
@@ -2508,7 +2508,7 @@ private fun LauncherVehicleStatusSquareCard(
             LauncherVehicleHealthStatus.Warning -> {
                 Icon(
                     painter = painterResource(R.drawable.ic_status_warning),
-                    contentDescription = "Warning",
+                    contentDescription = launcherText(R.string.launcher_vehicle_status_warning),
                     modifier = Modifier.size(28.dp),
                     tint = Color.Unspecified,
                 )
@@ -2516,7 +2516,7 @@ private fun LauncherVehicleStatusSquareCard(
             LauncherVehicleHealthStatus.Error -> {
                 Icon(
                     painter = painterResource(R.drawable.ic_status_error),
-                    contentDescription = "Error",
+                    contentDescription = launcherText(R.string.label_error),
                     modifier = Modifier.size(28.dp),
                     tint = Color.Unspecified,
                 )

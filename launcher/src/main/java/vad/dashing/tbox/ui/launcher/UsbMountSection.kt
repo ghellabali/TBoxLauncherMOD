@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,7 +46,6 @@ fun UsbMountSection(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val res = LocalResources.current
     val scope = rememberCoroutineScope()
     val usbMountEnabled by settingsManager.usbMountEnabledFlow.collectAsStateWithLifecycle(initialValue = true)
 
@@ -61,7 +60,7 @@ fun UsbMountSection(
         }
     }
 
-    var remountStatus by remember { mutableStateOf<String?>(null) }
+    var remountResult by remember { mutableStateOf<Result<*>?>(null) }
     var isRemounting by remember { mutableStateOf(false) }
 
     Column(
@@ -145,18 +144,11 @@ fun UsbMountSection(
                     onClick = {
                         if (!isRemounting) {
                             isRemounting = true
-                            remountStatus = null
+                            remountResult = null
                             scope.launch {
                                 val result = UsbMountManager.triggerManualRemount(context)
                                 isRemounting = false
-                                remountStatus = if (result.isSuccess) {
-                                    res.getString(R.string.settings_usb_mount_remount_ok)
-                                } else {
-                                    res.getString(
-                                        R.string.settings_usb_mount_remount_fail,
-                                        result.exceptionOrNull()?.message ?: ""
-                                    )
-                                }
+                                remountResult = result
                             }
                         }
                     },
@@ -176,11 +168,16 @@ fun UsbMountSection(
                     )
                 }
 
-                remountStatus?.let { status ->
+                remountResult?.let { result ->
+                    val status = if (result.isSuccess) {
+                        stringResource(R.string.settings_usb_mount_remount_ok)
+                    } else {
+                        stringResource(R.string.settings_usb_mount_remount_fail, result.exceptionOrNull()?.message ?: "")
+                    }
                     Text(
                         text = status,
                         style = MaterialTheme.typography.tboxBody,
-                        color = if (status.contains("OK") || status.contains("Успешно") || status.contains("Successfully")) {
+                        color = if (result.isSuccess) {
                             LauncherColors.AccentCyan
                         } else {
                             LauncherColors.WarningRed

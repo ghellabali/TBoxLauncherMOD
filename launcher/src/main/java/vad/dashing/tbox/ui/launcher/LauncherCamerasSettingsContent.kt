@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -164,18 +165,18 @@ fun LauncherCamerasSettingsContent(
             }
             is CamdConnectionStatus.Connected -> {
                 val detail = if (s.openWindows.isNotEmpty()) {
-                    " (окна: ${s.openWindows.joinToString()})"
+                    launcherText(R.string.label_windows_2, s.openWindows.joinToString())
                 } else {
                     ""
                 }
-                val avmDetail = if (s.keepAvm) " • Штатная AVM выключена" else " • Штатная AVM активна"
+                val avmDetail = if (s.keepAvm) launcherText(R.string.label_factory_avm_off) else launcherText(R.string.label_factory_avm_active)
                 val recDetail = when {
-                    s.recSos -> " • Регистратор: SOS!"
-                    s.recActive -> " • Регистратор: запись (${s.recSegSeconds ?: 180}с)"
-                    s.recEnabled -> " • Регистратор: включен"
+                    s.recSos -> launcherText(R.string.label_recorder_sos)
+                    s.recActive -> launcherText(R.string.label_recorder_recording_s, s.recSegSeconds ?: 180)
+                    s.recEnabled -> launcherText(R.string.label_recorder_on)
                     else -> ""
                 }
-                val presetsDetail = if (s.presets.isNotEmpty()) " • Пресетов: ${s.presets.size}" else ""
+                val presetsDetail = if (s.presets.isNotEmpty()) launcherText(R.string.label_presets, s.presets.size) else ""
                 "${stringResource(R.string.camd_status_connected)}$detail$avmDetail$recDetail$presetsDetail" to Color(0xFF10B981)
             }
             is CamdConnectionStatus.NoConnection -> {
@@ -256,7 +257,7 @@ fun LauncherCamerasSettingsContent(
                         enabled = !isSosTriggering && !connectedStatus.recSos,
                     ) {
                         Text(
-                            text = if (connectedStatus.recSos) "SOS выполняется..." else "REC SOS (Аварийное сохранение)",
+                            text = if (connectedStatus.recSos) launcherText(R.string.label_sos_in_progress) else launcherText(R.string.label_rec_sos_emergency_save),
                             fontSize = 13.sp,
                             color = Color(0xFFEF4444),
                         )
@@ -383,7 +384,7 @@ fun LauncherCamerasSettingsContent(
                     fontSize = 15.sp,
                 )
                 Text(
-                    text = "$stockAvmMinSpeed км/ч",
+                    text = launcherText(R.string.label_km_h, stockAvmMinSpeed),
                     color = if (isStockAvmEnabled) LauncherColors.AccentCyan else LauncherColors.TextMuted,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -831,7 +832,7 @@ fun LauncherCamerasSettingsContent(
                         fontSize = 15.sp,
                     )
                     Text(
-                        text = "$lowSpeedThreshold км/ч",
+                        text = launcherText(R.string.label_km_h, lowSpeedThreshold),
                         color = LauncherColors.AccentCyan,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,

@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -514,10 +515,10 @@ private fun LauncherWindowGestureFeedback(
         ) {
             Text(
                 text = when (feedback.corner) {
-                    LauncherWheelCorner.FL -> "Переднее левое"
-                    LauncherWheelCorner.FR -> "Переднее правое"
-                    LauncherWheelCorner.RL -> "Заднее левое"
-                    LauncherWheelCorner.RR -> "Заднее правое"
+                    LauncherWheelCorner.FL -> launcherText(R.string.label_front_left)
+                    LauncherWheelCorner.FR -> launcherText(R.string.label_front_right)
+                    LauncherWheelCorner.RL -> launcherText(R.string.label_rear_left)
+                    LauncherWheelCorner.RR -> launcherText(R.string.label_rear_right)
                 },
                 color = LauncherColors.TextPrimary,
                 fontSize = 13.sp,

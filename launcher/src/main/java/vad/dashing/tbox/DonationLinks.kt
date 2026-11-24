@@ -9,17 +9,20 @@ package vad.dashing.tbox
 object DonationLinks {
     data class Entry(
         /** Channel name, e.g. "Boosty", "ЮMoney", "CloudTips". */
-        val title: String,
+        @androidx.annotation.StringRes val titleResource: Int,
         /** Short hint shown under the title, e.g. "разовый перевод" / "подписка". */
-        val subtitle: String,
+        @androidx.annotation.StringRes val subtitleResource: Int,
         /** Payment URL opened on tap and encoded into the QR code. */
         val url: String,
-    )
+    ) {
+        val title: String get() = launcherText(titleResource)
+        val subtitle: String get() = launcherText(subtitleResource)
+    }
 
     val entries: List<Entry> = listOf(
         Entry(
-            title = "Т-Банк — сбор средств",
-            subtitle = "разовый перевод любой суммы",
+            titleResource = R.string.label_t_bank_donations,
+            subtitleResource = R.string.label_one_time_contribution_of_any_amount,
             url = "https://www.tbank.ru/cf/jle4TITNel",
         ),
     )
@@ -27,8 +30,8 @@ object DonationLinks {
     /** Feedback channels (not donations) shown in the About console. */
     val feedbackEntries: List<Entry> = listOf(
         Entry(
-            title = "Telegram-бот",
-            subtitle = "обратная связь / инструкция по настройке",
+            titleResource = R.string.label_telegram_bot,
+            subtitleResource = R.string.label_feedback_and_setup_instructions,
             url = "https://t.me/Dashing_Club_Launcher_bot",
         ),
     )

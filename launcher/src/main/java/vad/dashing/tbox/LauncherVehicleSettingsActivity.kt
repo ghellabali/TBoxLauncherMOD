@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -38,7 +37,7 @@ class LauncherVehicleSettingsActivity : ComponentActivity() {
             systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        setContent {
+        setLauncherContent {
             ProvideUiClickSounds {
                 val tboxViewModel: TboxViewModel = viewModel()
                 val canViewModel: CanDataViewModel = viewModel()

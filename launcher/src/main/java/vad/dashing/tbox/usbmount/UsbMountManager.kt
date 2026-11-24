@@ -1,5 +1,7 @@
 package vad.dashing.tbox.usbmount
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
@@ -206,14 +208,14 @@ object UsbMountManager {
     suspend fun triggerManualRemount(context: Context): Result<Unit> {
         val appCtx = context.applicationContext
         if (!isUsbHandlerDisabledOrHidden(appCtx)) {
-            return Result.failure(IllegalStateException("Штатный обработчик USB (android.car.usb.handler) не скрыт!"))
+            return Result.failure(IllegalStateException(launcherText(R.string.label_the_built_in_usb_handler_android_car_usb_handler_is_still_visible)))
         }
         val ok = RootOrchestrator.runUnlockUsb(appCtx)
         return if (ok) {
             isGateUnlockedThisBoot = true
             Result.success(Unit)
         } else {
-            Result.failure(IllegalStateException("Скрипт монтирования не подтвердил успех"))
+            Result.failure(IllegalStateException(launcherText(R.string.label_the_mount_operation_did_not_confirm_success)))
         }
     }
 }

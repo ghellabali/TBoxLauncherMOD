@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.graphics.Rect
@@ -66,7 +68,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -203,7 +204,7 @@ internal object LauncherAdasQuickSettingsWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 val density = LocalDensity.current
                 val windowHeightDp = with(density) { bounds.height().toDp() }
                 Box(
@@ -558,7 +559,7 @@ private fun LauncherAdasQuickSettingsContent(
         if (activeCount >= maxAllowedPanels) {
             Toast.makeText(
                 context,
-                "Достигнуто максимальное количесвто панелей ADAS. Удалите панель чтобы добавить новую",
+                launcherText(R.string.label_the_adas_area_is_full_remove_a_panel_to_add_another),
                 Toast.LENGTH_LONG,
             ).show()
             return
@@ -589,7 +590,7 @@ private fun LauncherAdasQuickSettingsContent(
         currentBottom.add(0, basePanelId)
         LauncherAppConfigStore.setAdasPanelsLayout(context, currentTop, currentBottom)
 
-        Toast.makeText(context, "Панель добавлена в зону ADAS", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_panel_added_to_the_adas_area), Toast.LENGTH_SHORT).show()
     }
 
     val mediaHeightScaleRevision by LauncherAppConfigStore.mediaCardHeightScaleRevisionFlow.collectAsStateWithLifecycle()
@@ -645,7 +646,7 @@ private fun LauncherAdasQuickSettingsContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = "Все панели отображаются в зоне ADAS",
+                        text = launcherText(R.string.label_all_panels_are_displayed_in_the_adas_area),
                         color = LauncherColors.LeftTextSecondary,
                         fontSize = 14.sp,
                         textAlign = TextAlign.Center,
@@ -1003,7 +1004,7 @@ private fun LauncherTrunkAndWindowsBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_trunk),
-                contentDescription = "Багажник",
+                contentDescription = launcherText(R.string.launcher_vs_sim_tailgate),
                 modifier = Modifier.size(40.dp),
                 colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
             )
@@ -1037,7 +1038,7 @@ private fun LauncherTrunkAndWindowsBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_widget_side_window),
-                contentDescription = "Окна",
+                contentDescription = launcherText(R.string.label_windows),
                 modifier = Modifier.size(40.dp),
                 colorFilter = ColorFilter.tint(
                     if (isOperatingWindows) activeGreen else LauncherColors.LeftTextPrimary,
@@ -1071,7 +1072,7 @@ private fun LauncherTrunkAndWindowsBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_mirror),
-                contentDescription = "Складывание зеркал",
+                contentDescription = launcherText(R.string.launcher_vs_mirror_autofold),
                 modifier = Modifier.size(36.dp),
                 colorFilter = ColorFilter.tint(
                     if (isMirrorFolded) activeGreen else LauncherColors.LeftTextPrimary,
@@ -1112,19 +1113,19 @@ private fun LauncherSeatMemoryAndAdjustmentBar(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_settings_sliders),
-                    contentDescription = "Настройки",
+                    contentDescription = launcherText(R.string.launcher_vehicle_status_settings),
                     modifier = Modifier.size(28.dp),
                     colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                 )
                 Image(
                     painter = painterResource(R.drawable.ic_seat_memory_btn),
-                    contentDescription = "Регулировка водительского сиденья",
+                    contentDescription = launcherText(R.string.label_adjust_driver_seat),
                     modifier = Modifier.size(30.dp),
                     colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                 )
                 Image(
                     painter = painterResource(R.drawable.ic_rearview_mirror),
-                    contentDescription = "Регулировка зеркал",
+                    contentDescription = launcherText(R.string.launcher_seat_memory_adjust_mode),
                     modifier = Modifier.size(36.dp),
                     colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                 )
@@ -1143,7 +1144,7 @@ private fun LauncherSeatMemoryAndAdjustmentBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_seat_memory_btn),
-                contentDescription = "Регулировка пассажирского сиденья",
+                contentDescription = launcherText(R.string.label_adjust_passenger_seat),
                 modifier = Modifier
                     .size(32.dp)
                     .graphicsLayer { scaleX = -1f },

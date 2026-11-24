@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -165,7 +166,7 @@ fun SimulationSectionCard(
                     label = stringResource(R.string.launcher_vs_sim_speed),
                     value = LauncherDevVehicleState.speedKmh,
                     range = 0f..220f,
-                    unit = "км/ч",
+                    unit = launcherText(R.string.unit_kmh),
                     onValueChange = { LauncherDevVehicleState.setSpeed(it) },
                 )
                 SimulationSliderRow(
@@ -179,7 +180,7 @@ fun SimulationSectionCard(
                     label = stringResource(R.string.launcher_vs_sim_battery),
                     value = LauncherDevVehicleState.batteryVoltageOverride ?: 12.6f,
                     range = 9f..16f,
-                    unit = "В",
+                    unit = launcherText(R.string.unit_volt),
                     onValueChange = { LauncherDevVehicleState.setBatteryVoltage(it) },
                 )
                 SimulationGearRow(
@@ -235,7 +236,7 @@ fun SimulationSectionCard(
                     label = stringResource(R.string.launcher_vs_sim_front_object),
                     value = LauncherDevVehicleState.adasFrontObjectM,
                     range = 0f..120f,
-                    unit = "м",
+                    unit = launcherText(R.string.unit_meter),
                     onValueChange = { LauncherDevVehicleState.setAdasFrontObject(it) },
                 )
                 SimulationFrontObjectTypeRow()
@@ -243,14 +244,14 @@ fun SimulationSectionCard(
                     label = stringResource(R.string.launcher_vs_sim_pdc_front),
                     value = LauncherDevVehicleState.pdcFrontGroupValue(),
                     range = 0f..150f,
-                    unit = "см",
+                    unit = launcherText(R.string.label_cm),
                     onValueChange = { LauncherDevVehicleState.setPdcFrontGroup(it) },
                 )
                 SimulationSliderRow(
                     label = stringResource(R.string.launcher_vs_sim_pdc_rear),
                     value = LauncherDevVehicleState.pdcRearGroupValue(),
                     range = 0f..150f,
-                    unit = "см",
+                    unit = launcherText(R.string.label_cm),
                     onValueChange = { LauncherDevVehicleState.setPdcRearGroup(it) },
                 )
                 SimulationPdcChannelsBlock()
@@ -284,10 +285,10 @@ fun SimulationSectionCard(
                     onClick = { LauncherDevVehicleState.toggleTurnRight() },
                 )
                 val wiperLabel = when (LauncherDevVehicleState.wiperStatus) {
-                    1 -> "Дворники: АВТО (бирюзовая)"
-                    2 -> "Дворники: Медленно (черная)"
-                    3 -> "Дворники: Быстро (черная)"
-                    else -> "Дворники: Выкл (нет)"
+                    1 -> launcherText(R.string.label_wipers_auto_turquoise)
+                    2 -> launcherText(R.string.label_wipers_slow_black)
+                    3 -> launcherText(R.string.label_wipers_fast_black)
+                    else -> launcherText(R.string.label_wipers_off_hidden)
                 }
                 SimulationToggleRow(
                     label = wiperLabel,
@@ -295,7 +296,7 @@ fun SimulationSectionCard(
                     onClick = { LauncherDevVehicleState.cycleWiperStatus() },
                 )
                 SimulationToggleRow(
-                    label = "Датчик дождя: " + if (LauncherDevVehicleState.rainDetected) "Дождь" else "Сухо",
+                    label = launcherText(R.string.label_rain_sensor) + if (LauncherDevVehicleState.rainDetected) launcherText(R.string.label_rain) else launcherText(R.string.label_dry),
                     active = LauncherDevVehicleState.rainDetected,
                     onClick = {
                         LauncherDevVehicleState.simulateEnabled = true
@@ -568,7 +569,7 @@ private fun SimulationPdcChannelsBlock() {
             label = stringResource(labelRes),
             value = LauncherDevVehicleState.pdcChannelValue(channel),
             range = 0f..150f,
-            unit = "см",
+            unit = launcherText(R.string.label_cm),
             onValueChange = { LauncherDevVehicleState.setPdcChannel(channel, it) },
         )
     }
@@ -640,7 +641,7 @@ private fun SimulationTireRow(
         ) {
             Text(label, color = LauncherColors.TextPrimary, fontSize = 14.sp)
             Text(
-                text = "${(sliderValue * 10).roundToInt() / 10f} bar",
+                text = "${(sliderValue * 10).roundToInt() / 10f} ${stringResource(R.string.unit_bar)}",
                 color = LauncherColors.TextSecondary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,

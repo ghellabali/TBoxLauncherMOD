@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.R
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -94,7 +96,7 @@ internal fun LauncherSmartAccAndDistControl(
             // --- BUTTON 1: DIST (Time Gap / Distance) - only for Adaptive Cruise ---
             if (!isConventional) {
                 SmartPanelButton(
-                    label = "DIST",
+                    label = stringResource(R.string.badge_distance),
                     icon = {
                         ThreeChevronsIcon(
                             level = displayChevronLevel,

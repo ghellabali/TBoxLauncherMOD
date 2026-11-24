@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -443,7 +444,7 @@ internal fun LauncherVehicleSettingsContent(
                         fontSize = 14.sp,
                     )
                     Text(
-                        text = "${valueToString(tirePressureLowThreshold, 1)} bar",
+                        text = "${valueToString(tirePressureLowThreshold, 1)} ${stringResource(R.string.unit_bar)}",
                         color = LauncherColors.AccentCyan,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -1150,7 +1151,7 @@ private fun ExperimentalAdasSliders() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Расстояние между модельками при АСС",
+                text = launcherText(R.string.label_distance_between_vehicle_models_in_acc),
                 color = LauncherColors.TextPrimary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,

@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.os.SystemClock
 import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
@@ -129,7 +131,7 @@ internal fun DraggableAdasPanel(
         }
 
         LauncherAppConfigStore.setAdasPanelsLayout(context, newTop, newBottom)
-        Toast.makeText(context, "Панель удалена из зоны ADAS", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_panel_removed_from_the_adas_area), Toast.LENGTH_SHORT).show()
     }
 
     Box(

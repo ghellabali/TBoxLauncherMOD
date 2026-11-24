@@ -1,5 +1,7 @@
 package vad.dashing.tbox.camd
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -268,11 +270,11 @@ object CamdSocketClient {
                     val presets = getPresets().getOrDefault(emptyList())
                     st.copy(presets = presets)
                 } else {
-                    CamdConnectionStatus.NoConnection("Ответ службы: $response")
+                    CamdConnectionStatus.NoConnection(launcherText(R.string.label_service_response, response))
                 }
             },
             onFailure = { error ->
-                CamdConnectionStatus.NoConnection(error.message ?: "Порт $PORT недоступен")
+                CamdConnectionStatus.NoConnection(error.message ?: launcherText(R.string.label_port_is_unavailable, PORT))
             }
         )
         when (status) {

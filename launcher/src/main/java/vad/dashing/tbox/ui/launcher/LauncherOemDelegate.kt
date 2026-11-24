@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -20,7 +21,7 @@ object LauncherOemDelegate {
         )
         Toast.makeText(
             context,
-            context.getString(R.string.launcher_oem_fullscreen_blocked, label),
+            launcherText(R.string.launcher_oem_fullscreen_blocked, label),
             Toast.LENGTH_LONG,
         ).show()
     }

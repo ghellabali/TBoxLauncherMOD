@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.launcherText
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -112,7 +114,7 @@ fun LauncherCamdCamerasPage(
         CamdControlButton(
             modifier = Modifier.weight(1f),
             iconRes = R.drawable.ic_camd_widget_left_right,
-            contentDescription = "Камеры Право / Лево",
+            contentDescription = launcherText(R.string.label_right_left_cameras),
             isActive = activeMode == CamdWidgetCameraMode.LEFT_RIGHT,
             onClick = {
                 CamdCameraRepository.toggleWidgetCameras(context, CamdWidgetCameraMode.LEFT_RIGHT)
@@ -123,7 +125,7 @@ fun LauncherCamdCamerasPage(
         CamdControlButton(
             modifier = Modifier.weight(1f),
             iconRes = R.drawable.ic_camd_widget_up_down,
-            contentDescription = "Камеры Верх / Низ",
+            contentDescription = launcherText(R.string.label_top_bottom_cameras),
             isActive = activeMode == CamdWidgetCameraMode.UP_DOWN,
             onClick = {
                 CamdCameraRepository.toggleWidgetCameras(context, CamdWidgetCameraMode.UP_DOWN)
@@ -134,7 +136,7 @@ fun LauncherCamdCamerasPage(
         CamdControlButton(
             modifier = Modifier.weight(1f),
             iconRes = R.drawable.ic_camd_widget_360,
-            contentDescription = "Камеры 360",
+            contentDescription = launcherText(R.string.label_360_cameras),
             isActive = activeMode == CamdWidgetCameraMode.ALL_360,
             onClick = {
                 CamdCameraRepository.toggleWidgetCameras(context, CamdWidgetCameraMode.ALL_360)
@@ -208,12 +210,12 @@ fun LauncherCamdDvrPage(
                     painter = painterResource(
                         if (isRecording) R.drawable.ic_camd_rec_active else R.drawable.ic_camd_rec_idle,
                     ),
-                    contentDescription = "REC",
+                    contentDescription = launcherText(R.string.label_rec),
                     modifier = Modifier.size(24.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "REC",
+                    text = stringResource(R.string.badge_recording),
                     color = if (isRecording) Color(0xFFEF4444) else LauncherColors.LeftTextPrimary,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
@@ -267,7 +269,7 @@ fun LauncherCamdDvrPage(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_camd_sos),
-                    contentDescription = "SOS",
+                    contentDescription = launcherText(R.string.label_sos),
                     modifier = Modifier.size(24.dp),
                     colorFilter = ColorFilter.tint(sosIconTint),
                 )

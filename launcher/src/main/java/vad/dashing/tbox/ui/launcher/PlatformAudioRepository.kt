@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
@@ -18,7 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 enum class PlatformVolumeChannel(
-    val title: String,
+    @androidx.annotation.StringRes private val titleResource: Int,
     val minVal: Int,
     val maxVal: Int,
     val a9Usage: Int,
@@ -26,7 +28,7 @@ enum class PlatformVolumeChannel(
     val a9FallbackStream: Int,
 ) {
     Media(
-        title = "Громкость Медиа",
+        titleResource = R.string.widget_media_volume_title,
         minVal = 0,
         maxVal = 31,
         a9Usage = 1, // USAGE_MEDIA
@@ -34,7 +36,7 @@ enum class PlatformVolumeChannel(
         a9FallbackStream = AudioManager.STREAM_MUSIC,
     ),
     Phone(
-        title = "Громкость Звонков",
+        titleResource = R.string.label_call_volume,
         minVal = 1,
         maxVal = 31,
         a9Usage = 2, // USAGE_VOICE_COMMUNICATION
@@ -42,7 +44,7 @@ enum class PlatformVolumeChannel(
         a9FallbackStream = AudioManager.STREAM_VOICE_CALL,
     ),
     Navi(
-        title = "Громкость Навигации",
+        titleResource = R.string.label_navigation_volume,
         minVal = 0,
         maxVal = 10,
         a9Usage = 12, // USAGE_ASSISTANCE_NAVIGATION_GUIDANCE
@@ -50,13 +52,15 @@ enum class PlatformVolumeChannel(
         a9FallbackStream = 7,
     ),
     Voice(
-        title = "Громкость Голоса",
+        titleResource = R.string.label_voice_volume,
         minVal = 2,
         maxVal = 10,
         a9Usage = 16, // USAGE_ASSISTANT
         a10StreamType = 9,
         a9FallbackStream = 9,
-    ),
+    );
+
+    val title: String get() = launcherText(titleResource)
 }
 
 internal object PlatformAudioRepository {

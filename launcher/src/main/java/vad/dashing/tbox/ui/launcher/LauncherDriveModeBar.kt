@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -171,7 +173,7 @@ fun LauncherDriveModeBar(
             if (page == 0) {
                 // Slot 2 (or 1): ECO Button
                 DriveModeChip(
-                    label = "ECO",
+                    label = stringResource(R.string.badge_eco),
                     selected = isEco,
                     activeColor = Color(0xFF16A34A), // Green
                     onClick = { onSelectMode("ECO") },
@@ -182,7 +184,7 @@ fun LauncherDriveModeBar(
 
                 // Slot 3 (or 2): NOR Button
                 DriveModeChip(
-                    label = "NOR",
+                    label = stringResource(R.string.badge_normal),
                     selected = isNor,
                     activeColor = Color(0xFF3B82F6), // Blue
                     onClick = { onSelectMode("NOR") },
@@ -193,7 +195,7 @@ fun LauncherDriveModeBar(
 
                 // Slot 4 (or 3): SPT Button
                 DriveModeChip(
-                    label = "SPT",
+                    label = stringResource(R.string.badge_sport),
                     selected = isSpt,
                     activeColor = Color(0xFFEF4444), // Red
                     onClick = { onSelectMode("SPT") },
@@ -205,7 +207,7 @@ fun LauncherDriveModeBar(
                 if (isManual) {
                     // Slot 4: SNOW Button (moved from page 1 to the right on page 0 for Manual)
                     DriveModeChip(
-                        label = "SNOW",
+                        label = androidx.compose.ui.res.stringResource(vad.dashing.tbox.R.string.label_snow),
                         selected = isSnow,
                         activeColor = Color(0xFF38BDF8), // Bright blue
                         onClick = { onSelectMode("SNOW") },
@@ -218,7 +220,7 @@ fun LauncherDriveModeBar(
                 if (!isManual) {
                     // Slot 2: SNOW Button
                     DriveModeChip(
-                        label = "SNOW",
+                        label = androidx.compose.ui.res.stringResource(vad.dashing.tbox.R.string.label_snow),
                         selected = isSnow,
                         activeColor = Color(0xFF38BDF8), // Bright blue
                         onClick = { onSelectMode("SNOW") },
@@ -230,7 +232,7 @@ fun LauncherDriveModeBar(
 
                 // Slot 3 (or 1): MUD Button
                 DriveModeChip(
-                    label = "MUD",
+                    label = androidx.compose.ui.res.stringResource(vad.dashing.tbox.R.string.label_mud),
                     selected = isMud,
                     activeColor = Color(0xFFF97316), // Orange
                     onClick = { onSelectMode("MUD") },
@@ -241,7 +243,7 @@ fun LauncherDriveModeBar(
 
                 // Slot 4 (or 2): SAND Button
                 DriveModeChip(
-                    label = "SAND",
+                    label = androidx.compose.ui.res.stringResource(vad.dashing.tbox.R.string.label_sand),
                     selected = isSand,
                     activeColor = Color(0xFFEAB308), // Yellow
                     onClick = { onSelectMode("SAND") },

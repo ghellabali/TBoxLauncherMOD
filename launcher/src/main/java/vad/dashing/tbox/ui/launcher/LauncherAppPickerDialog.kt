@@ -237,7 +237,7 @@ internal fun LauncherSplitPresetCreateDialog(
     var pickSide by remember { mutableStateOf<String?>(null) }
 
     val draft = editing
-    var name by remember(draft.id) { mutableStateOf(draft.name) }
+    var name by remember(draft.id) { mutableStateOf(draft.displayName) }
     var ratio by remember(draft.id) { mutableFloatStateOf(draft.leftRatio) }
     val leftLabel = apps.firstOrNull { it.packageName == draft.leftPackage }?.label ?: draft.leftPackage
     val rightLabel = apps.firstOrNull { it.packageName == draft.rightPackage }?.label ?: draft.rightPackage
@@ -284,7 +284,7 @@ internal fun LauncherSplitPresetCreateDialog(
             TextButton(
                 onClick = {
                     if (name.isBlank() || draft.leftPackage.isBlank() || draft.rightPackage.isBlank()) return@TextButton
-                    val saved = draft.copy(name = name, leftRatio = ratio)
+                    val saved = draft.copy(name = draft.nameForStorage(name), leftRatio = ratio)
                     LauncherSplitPresetStore.upsertPreset(context, saved)
                     if (pinToHomeOnSave) {
                         LauncherHomeStore.addSplit(context, saved.id)
@@ -341,7 +341,7 @@ internal fun LauncherSplitPresetsDialog(
 
     if (editing != null) {
         val draft = editing!!
-        var name by remember(draft.id) { mutableStateOf(draft.name) }
+        var name by remember(draft.id) { mutableStateOf(draft.displayName) }
         var ratio by remember(draft.id) { mutableFloatStateOf(draft.leftRatio) }
         val leftLabel = apps.firstOrNull { it.packageName == draft.leftPackage }?.label ?: draft.leftPackage
         val rightLabel = apps.firstOrNull { it.packageName == draft.rightPackage }?.label ?: draft.rightPackage
@@ -364,7 +364,7 @@ internal fun LauncherSplitPresetsDialog(
             confirmButton = {
                 TextButton(onClick = {
                     if (name.isNotBlank() && draft.leftPackage.isNotBlank() && draft.rightPackage.isNotBlank()) {
-                        val saved = draft.copy(name = name, leftRatio = ratio)
+                        val saved = draft.copy(name = draft.nameForStorage(name), leftRatio = ratio)
                         LauncherSplitPresetStore.upsertPreset(context, saved)
                         presets = LauncherSplitPresetStore.loadPresets(context)
                         onPresetsChanged()
@@ -419,7 +419,7 @@ internal fun LauncherSplitPresetsDialog(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(preset.name, color = LauncherColors.TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                            Text(preset.displayName, color = LauncherColors.TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Medium)
                             Text(
                                 "$leftPct% ($leftDp dp) / $rightPct% ($rightDp dp) · ${preset.leftPackage.substringAfterLast('.')} | ${preset.rightPackage.substringAfterLast('.')}",
                                 color = LauncherColors.TextMuted,

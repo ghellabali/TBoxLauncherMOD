@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.launcherText
 import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -145,19 +147,19 @@ fun LauncherVehicleBodyControlsBar(
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.ic_settings_sliders),
-                                contentDescription = "Настройки",
+                                contentDescription = launcherText(R.string.launcher_vehicle_status_settings),
                                 modifier = Modifier.size(28.dp),
                                 colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                             )
                             Image(
                                 painter = painterResource(R.drawable.ic_seat_memory_btn),
-                                contentDescription = "Регулировка водительского сиденья",
+                                contentDescription = launcherText(R.string.label_adjust_driver_seat),
                                 modifier = Modifier.size(30.dp),
                                 colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                             )
                             Image(
                                 painter = painterResource(R.drawable.ic_rearview_mirror),
-                                contentDescription = "Регулировка зеркал",
+                                contentDescription = launcherText(R.string.launcher_seat_memory_adjust_mode),
                                 modifier = Modifier.size(36.dp),
                                 colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
                             )
@@ -176,7 +178,7 @@ fun LauncherVehicleBodyControlsBar(
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_seat_memory_btn),
-                            contentDescription = "Регулировка пассажирского сиденья",
+                            contentDescription = launcherText(R.string.label_adjust_passenger_seat),
                             modifier = Modifier
                                 .size(32.dp)
                                 .graphicsLayer { scaleX = -1f },
@@ -201,7 +203,7 @@ fun LauncherSeatMemoryPresetsBar(
     fun recallSlot(slot: Int) {
         activeSlot = slot
         resetJob?.cancel()
-        Toast.makeText(context, "Применение памяти: Слот $slot", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_recalling_memory_slot, slot), Toast.LENGTH_SHORT).show()
         resetJob = scope.launch(Dispatchers.IO) {
             UniversalCanRepository.execute(
                 MbCanCommand.SetProperty(MbCanKnownVehiclePropertyId.MIRROR_SET_DRIVER_MIRROR_LOCATION, slot)
@@ -263,14 +265,14 @@ fun LauncherSeatMemoryPresetsBar(
                     }
                     Image(
                         painter = painterResource(iconRes),
-                        contentDescription = "DRV$slot",
+                        contentDescription = stringResource(R.string.badge_driver_slot_description, slot),
                         modifier = Modifier.size(22.dp),
                         colorFilter = ColorFilter.tint(
                             if (isActive) activeGreen else LauncherColors.LeftTextPrimary
                         ),
                     )
                     Text(
-                        text = "DRV$slot",
+                        text = stringResource(R.string.badge_driver_slot, slot),
                         color = if (isActive) activeGreen else LauncherColors.LeftTextPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
@@ -337,7 +339,7 @@ fun LauncherTrunkWindowsMirrorFoldBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_trunk),
-                contentDescription = "Багажник",
+                contentDescription = launcherText(R.string.launcher_vs_sim_tailgate),
                 modifier = Modifier.size(40.dp),
                 colorFilter = ColorFilter.tint(LauncherColors.LeftTextPrimary),
             )
@@ -375,7 +377,7 @@ fun LauncherTrunkWindowsMirrorFoldBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_car_window),
-                contentDescription = "Окна",
+                contentDescription = launcherText(R.string.label_windows),
                 modifier = Modifier.size(36.dp),
                 colorFilter = ColorFilter.tint(
                     if (isOperatingWindows) activeGreen else LauncherColors.LeftTextPrimary,
@@ -409,7 +411,7 @@ fun LauncherTrunkWindowsMirrorFoldBar(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_mirror),
-                contentDescription = "Складывание зеркал",
+                contentDescription = launcherText(R.string.launcher_vs_mirror_autofold),
                 modifier = Modifier.size(36.dp),
                 colorFilter = ColorFilter.tint(
                     if (isMirrorFolded) activeGreen else LauncherColors.LeftTextPrimary,

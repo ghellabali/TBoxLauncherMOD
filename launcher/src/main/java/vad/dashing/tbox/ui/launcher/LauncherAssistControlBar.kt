@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -867,7 +868,7 @@ fun LauncherWiperControlBar(
     ) {
         // Button 1: Service Mode
         AssistColoredChip(
-            label = "Сервис",
+            label = launcherText(R.string.label_service),
             iconRes = R.drawable.ic_wiper,
             activeColor = maintenanceColor,
             onClick = onMaintenanceClick,
@@ -880,7 +881,7 @@ fun LauncherWiperControlBar(
 
         // Button 2: Auto Sensitivity
         AssistColoredChip(
-            label = "Авто $currentSens",
+            label = launcherText(R.string.label_auto, currentSens),
             iconRes = R.drawable.ic_windshield,
             activeColor = sensitivityColor,
             onClick = onSensitivityClick,

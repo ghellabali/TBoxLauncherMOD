@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.app.Application
 import android.os.Build
 import androidx.activity.compose.LocalActivity
@@ -45,6 +46,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import vad.dashing.tbox.LauncherLanguage
+import vad.dashing.tbox.LauncherStrings
 import vad.dashing.tbox.BuildConfig
 import vad.dashing.tbox.DonationLinks
 import vad.dashing.tbox.R
@@ -171,6 +174,19 @@ fun LauncherSystemAndAboutSettingsContent(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        Text(
+            text = stringResource(R.string.launcher_interface_language),
+            style = MaterialTheme.typography.tboxTitle,
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LauncherLanguage.supported.forEach { language ->
+                androidx.compose.material3.FilterChip(
+                    selected = LauncherStrings.language == language,
+                    onClick = { LauncherStrings.select(language) },
+                    label = { Text(language.nativeName) },
+                )
+            }
+        }
         Text(
             text = stringResource(R.string.launcher_standalone_app_name),
             style = MaterialTheme.typography.tboxTitle,
@@ -581,10 +597,10 @@ private fun UpdateReleaseDetails(info: UpdateReleaseInfo) {
 @Composable
 private fun resolveUpdateErrorMessage(raw: String): String = when {
     raw == "network_unavailable" ->
-        "Ошибка сети: нет подключения к интернету на устройстве"
+        launcherText(R.string.label_network_error_the_unit_has_no_internet_connection)
 
     raw == "Update source URL is not configured" ->
-        "Ошибка конфигурации: URL источника обновлений не настроен"
+        launcherText(R.string.label_update_source_url_is_not_configured)
 
     raw == "APK checksum mismatch" ->
         stringResource(R.string.update_error_verify_checksum)
@@ -596,28 +612,28 @@ private fun resolveUpdateErrorMessage(raw: String): String = when {
         stringResource(R.string.update_error_verify_signature)
 
     raw.startsWith("No update entry for flavor", ignoreCase = true) ->
-        "На сервере нет данных для версии: ${raw.substringAfter("flavor ").trim()}"
+        launcherText(R.string.label_no_server_data_for_version, raw.substringAfter("flavor ").trim())
 
     raw.contains("UnknownHostException", ignoreCase = true) ||
         raw.contains("Unable to resolve host", ignoreCase = true) ->
-        "Ошибка подключения: не удалось разрешить имя сервера (${raw.substringAfter(": ").ifEmpty { raw }})"
+        launcherText(R.string.label_could_not_resolve_the_server_name, raw.substringAfter(": ").ifEmpty { raw })
 
     raw.contains("SocketTimeoutException", ignoreCase = true) ||
         raw.contains("timeout", ignoreCase = true) ->
-        "Ошибка подключения: превышено время ожидания сервера ($raw)"
+        launcherText(R.string.label_server_response_timed_out, raw)
 
     raw.contains("ConnectException", ignoreCase = true) ||
         raw.contains("Failed to connect", ignoreCase = true) ->
-        "Ошибка подключения: не удалось соединиться с сервером ($raw)"
+        launcherText(R.string.label_could_not_connect_to_the_server, raw)
 
     raw.contains("HTTP 404", ignoreCase = true) ->
-        "Ошибка сервера: файл не найден (HTTP 404). Проверьте наличие version.json в Облаке Mail.ru"
+        launcherText(R.string.label_file_not_found_http_404_check_for_version_json_in_mail_ru_cloud)
 
     raw.contains("HTTP 403", ignoreCase = true) ->
-        "Ошибка сервера: доступ к папке запрещён (HTTP 403)"
+        launcherText(R.string.label_access_to_the_server_folder_was_denied_http_403)
 
     raw.contains("HTTP", ignoreCase = true) ->
-        "Ошибка сервера: $raw"
+        launcherText(R.string.label_server_error, raw)
 
     else ->
         stringResource(R.string.update_error_generic, raw)

@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.LauncherStrings
+import vad.dashing.tbox.launcherText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,9 +53,11 @@ import vad.dashing.tbox.ui.ALL_TBM_AUTOMATION_ICONS
 
 data class TbmIconOption(
     val key: String,
-    val label: String,
+    @androidx.annotation.StringRes val labelResource: Int,
     val vector: ImageVector,
-)
+) {
+    val label: String get() = launcherText(labelResource)
+}
 
 val TBM_AUTOMATION_ICONS: List<TbmIconOption>
     get() = ALL_TBM_AUTOMATION_ICONS
@@ -206,7 +210,7 @@ internal fun LauncherTbmAutomationEditDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                "Настройка автоматизации",
+                launcherText(R.string.label_automation_settings),
                 color = LauncherColors.TextPrimary,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -220,8 +224,8 @@ internal fun LauncherTbmAutomationEditDialog(
                 OutlinedTextField(
                     value = titleText,
                     onValueChange = { titleText = it },
-                    label = { Text("Название (оставьте пустым — одна иконка)", color = LauncherColors.TextSecondary, fontSize = 11.sp) },
-                    placeholder = { Text("Без названия", color = LauncherColors.TextMuted, fontSize = 13.sp) },
+                    label = { Text(launcherText(R.string.label_name_leave_blank_to_show_only_the_icon), color = LauncherColors.TextSecondary, fontSize = 11.sp) },
+                    placeholder = { Text(launcherText(R.string.label_untitled), color = LauncherColors.TextMuted, fontSize = 13.sp) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     trailingIcon = {
@@ -232,7 +236,7 @@ internal fun LauncherTbmAutomationEditDialog(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
-                                    contentDescription = "Очистить",
+                                    contentDescription = launcherText(R.string.themes_clear_shared_tile_backgrounds_confirm),
                                     tint = LauncherColors.TextMuted,
                                     modifier = Modifier.size(16.dp),
                                 )
@@ -250,7 +254,7 @@ internal fun LauncherTbmAutomationEditDialog(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Поиск иконки (всего ${ALL_TBM_AUTOMATION_ICONS.size})...", color = LauncherColors.TextMuted, fontSize = 12.sp) },
+                    placeholder = { Text(launcherText(R.string.label_search_icons_total, ALL_TBM_AUTOMATION_ICONS.size), color = LauncherColors.TextMuted, fontSize = 12.sp) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -263,7 +267,7 @@ internal fun LauncherTbmAutomationEditDialog(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
-                                    contentDescription = "Очистить поиск",
+                                    contentDescription = launcherText(R.string.label_clear_search),
                                     tint = LauncherColors.TextMuted,
                                     modifier = Modifier.size(16.dp),
                                 )
@@ -278,7 +282,7 @@ internal fun LauncherTbmAutomationEditDialog(
                     ),
                 )
 
-                val filteredIcons = remember(searchQuery) {
+                val filteredIcons = remember(searchQuery, LauncherStrings.language) {
                     if (searchQuery.isBlank()) {
                         ALL_TBM_AUTOMATION_ICONS
                     } else {
@@ -354,7 +358,7 @@ internal fun LauncherTbmAutomationEditDialog(
                         contentColor = LauncherColors.CanvasDark,
                     ),
                 ) {
-                    Text("Сохранить", fontWeight = FontWeight.Bold)
+                    Text(launcherText(R.string.action_save), fontWeight = FontWeight.Bold)
                 }
             }
         },

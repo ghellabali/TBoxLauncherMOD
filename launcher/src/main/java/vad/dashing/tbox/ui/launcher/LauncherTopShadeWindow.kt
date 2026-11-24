@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -132,7 +133,7 @@ internal object LauncherTopShadeWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     TboxAppTheme(theme = if (LauncherThemeState.darkTheme) 2 else 1) {
                         TopShadeWrapperContent(

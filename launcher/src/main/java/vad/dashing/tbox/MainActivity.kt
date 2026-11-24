@@ -3,7 +3,6 @@ package vad.dashing.tbox
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import vad.dashing.tbox.api.DclUiStateNotifier
 import vad.dashing.tbox.ui.ProvideUiClickSounds
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instanceRef = WeakReference(this)
-        setContent {
+        setLauncherContent {
             ProvideUiClickSounds {
                 TboxAppTheme(theme = 2) {
                     BackHandler { finish() }

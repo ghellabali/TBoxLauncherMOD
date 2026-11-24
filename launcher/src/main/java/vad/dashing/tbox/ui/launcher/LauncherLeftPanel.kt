@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -1797,7 +1798,7 @@ private fun BoxScope.LauncherTrunkGearWarningBanner(
                 colorFilter = ColorFilter.tint(Color(0xFF18181B)),
             )
             Text(
-                text = "Переключите передачу в P",
+                text = launcherText(R.string.label_shift_into_p),
                 color = Color(0xFF18181B),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,

@@ -387,5 +387,5 @@ private fun seatModeToStringRes(seatMode: UInt?): Int? {
 fun seatModeToString(context: Context, seatMode: UInt?): String {
     if (seatMode == null) return ""
     val resId = seatModeToStringRes(seatMode) ?: return seatMode.toString()
-    return context.getString(resId)
+    return launcherText(resId)
 }

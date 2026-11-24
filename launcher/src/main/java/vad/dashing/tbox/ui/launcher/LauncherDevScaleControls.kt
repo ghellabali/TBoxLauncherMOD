@@ -1,5 +1,8 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,16 +51,16 @@ fun LauncherDevScaleControls(
         LauncherDevScaleButton("↺") { LauncherDevScaleState.reset() }
         Text(
             text = when {
-                motionPreview -> "ПРЕВЬЮ руля"
-                simulateEnabled -> "SIM вкл"
-                else -> "SIM выкл"
+                motionPreview -> launcherText(R.string.label_steering_wheel_preview)
+                simulateEnabled -> launcherText(R.string.label_simulation_on)
+                else -> launcherText(R.string.label_simulation_off)
             },
             color = if (simulateEnabled || motionPreview) LauncherColors.AccentCyan else LauncherColors.TextMuted,
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
         )
         LauncherDevScaleButton("SIM") { LauncherDevVehicleState.toggleSimulate() }
-        LauncherDevScaleButton("ПРЕВ") { LauncherDevVehicleState.toggleMotionPreview() }
+        LauncherDevScaleButton(launcherText(R.string.label_preview)) { LauncherDevVehicleState.toggleMotionPreview() }
         LauncherDevScaleButton("V+") { LauncherDevVehicleState.bumpSpeed(10f) }
         LauncherDevScaleButton("V−") { LauncherDevVehicleState.bumpSpeed(-10f) }
         LauncherDevScaleButton("V0") {
@@ -65,7 +68,7 @@ fun LauncherDevScaleControls(
             LauncherDevVehicleState.speedKmh = 0f
         }
         Text(
-            text = "${speedKmh.toInt()} km/h",
+            text = "${speedKmh.toInt()} ${stringResource(R.string.unit_kmh)}",
             color = LauncherColors.TextMuted,
             fontSize = 9.sp,
         )
@@ -79,11 +82,11 @@ fun LauncherDevScaleControls(
             color = LauncherColors.TextMuted,
             fontSize = 9.sp,
         )
-        LauncherDevScaleButton("ДПЛ") { LauncherDevVehicleState.toggleDoorFl() }
-        LauncherDevScaleButton("ДПП") { LauncherDevVehicleState.toggleDoorFr() }
-        LauncherDevScaleButton("Баг") { LauncherDevVehicleState.toggleTailgate() }
-        LauncherDevScaleButton("РВ") { LauncherDevVehicleState.toggleSeatBeltDriver() }
-        LauncherDevScaleButton("РП") { LauncherDevVehicleState.toggleSeatBeltPassenger() }
+        LauncherDevScaleButton(launcherText(R.string.label_front_l_door)) { LauncherDevVehicleState.toggleDoorFl() }
+        LauncherDevScaleButton(launcherText(R.string.label_front_r_door)) { LauncherDevVehicleState.toggleDoorFr() }
+        LauncherDevScaleButton(launcherText(R.string.launcher_vs_tailgate)) { LauncherDevVehicleState.toggleTailgate() }
+        LauncherDevScaleButton(launcherText(R.string.label_driver_belt)) { LauncherDevVehicleState.toggleSeatBeltDriver() }
+        LauncherDevScaleButton(launcherText(R.string.label_pass_belt)) { LauncherDevVehicleState.toggleSeatBeltPassenger() }
     }
 }
 

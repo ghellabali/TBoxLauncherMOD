@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.LauncherStrings
+import vad.dashing.tbox.launcherText
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -157,7 +159,6 @@ import vad.dashing.tbox.ui.sendToggleRearWindowMirrorsDefrost
 import vad.dashing.tbox.ui.sendToggleSteeringWheelHeat
 import vad.dashing.tbox.ui.theme.tboxCaption
 import kotlin.math.cos
-import kotlin.math.roundToInt
 import kotlin.math.sin
 
 internal val HvacOnColor = Color(0xFF4FC3F7)
@@ -213,9 +214,11 @@ internal data class LauncherPendingSeatCommand(
 
 internal data class LauncherDockButtonDescriptor(
     val id: String,
-    val title: String,
+    @androidx.annotation.StringRes val titleResource: Int,
     val iconRes: Int? = null,
-)
+) {
+    val title: String get() = launcherText(titleResource)
+}
 
 @Composable
 internal fun LauncherFanSpeedIcon(
@@ -246,40 +249,40 @@ internal fun LauncherFanSpeedIcon(
 }
 
 internal val ALL_CLIMATE_DOCK_BUTTONS = listOf(
-    LauncherDockButtonDescriptor("hvac_power", "Питание климата", R.drawable.ic_widget_hvac_power),
-    LauncherDockButtonDescriptor("hvac_ac", "Кондиционер AC", R.drawable.ic_widget_hvac_ac),
-    LauncherDockButtonDescriptor("hvac_auto", "Климат AUTO", null),
-    LauncherDockButtonDescriptor("hvac_sync", "Синхронизация SYNC", null),
-    LauncherDockButtonDescriptor("temp_driver", "Температура водителя", null),
-    LauncherDockButtonDescriptor("temp_pass", "Температура пассажира", null),
-    LauncherDockButtonDescriptor("hvac_heater_level", "Уровень печки", null),
-    LauncherDockButtonDescriptor("audio_volume", "Регулятор громкости", null),
-    LauncherDockButtonDescriptor("screen_brightness", "Яркость экрана", null),
-    LauncherDockButtonDescriptor("hvac_pm25", "Очистка PM 2.5", R.drawable.ic_widget_pm25_on),
-    LauncherDockButtonDescriptor("hvac_fan_speed", "Скорость вентилятора", R.drawable.ic_widget_fan),
-    LauncherDockButtonDescriptor("hvac_fan_direction", "Направление обдува", R.drawable.ic_widget_fan_face_feet),
-    LauncherDockButtonDescriptor("seat_heat_left", "Подогрев водителя", R.drawable.ic_widget_seat_heat_left),
-    LauncherDockButtonDescriptor("seat_vent_left", "Вентиляция водителя", R.drawable.ic_widget_seat_vent_left),
-    LauncherDockButtonDescriptor("seat_heat_right", "Подогрев пассажира", R.drawable.ic_widget_seat_heat_right),
-    LauncherDockButtonDescriptor("seat_vent_right", "Вентиляция пассажира", R.drawable.ic_widget_seat_vent_right),
-    LauncherDockButtonDescriptor("seat_heat_rear_left", "Подогрев зад. лев.", R.drawable.ic_widget_seat_heat_left),
-    LauncherDockButtonDescriptor("seat_heat_rear_right", "Подогрев зад. прав.", R.drawable.ic_widget_seat_heat_right),
-    LauncherDockButtonDescriptor("recirc", "Рециркуляция", R.drawable.ic_widget_hvac_air_recirculation),
-    LauncherDockButtonDescriptor("steering_heat", "Подогрев руля", R.drawable.ic_widget_steering_wheel_heat),
-    LauncherDockButtonDescriptor("windscreen_heat", "Подогрев лобового", R.drawable.ic_widget_front_windscreen_heat),
-    LauncherDockButtonDescriptor("front_defrost", "Обдув лобового", R.drawable.ic_widget_hvac_defroster_front),
-    LauncherDockButtonDescriptor("rear_defrost", "Обогрев заднего стекла", R.drawable.ic_widget_rear_window_mirrors_defrost),
-    LauncherDockButtonDescriptor("headlights", "Переключатель фар", R.drawable.ic_headlights_auto),
-    LauncherDockButtonDescriptor("home_nav", "Кнопка Домой"),
-    LauncherDockButtonDescriptor("back_nav", "Кнопка Назад", R.drawable.undo_24),
-    LauncherDockButtonDescriptor("all_apps", "Все приложения", R.drawable.ic_all_apps_dock),
-    LauncherDockButtonDescriptor("undo_nav", "Предыдущее приложение", R.drawable.ic_undo_app),
-    LauncherDockButtonDescriptor("close_apps", "Закрыть приложения", R.drawable.close_apps_24),
-    LauncherDockButtonDescriptor("dcl_log", "Запись лога (5 мин)", R.drawable.menu_icon_log),
-    LauncherDockButtonDescriptor("car_dialer", "Телефон", R.drawable.ic_widget_phone),
-    LauncherDockButtonDescriptor("radio_app", "Радио", R.drawable.radio_vtkb246z55e9),
-    LauncherDockButtonDescriptor("avm_camera", "Камеры 360", R.drawable.ic_launcher_avm),
-    LauncherDockButtonDescriptor("camd_widget", "Виджет камер", R.drawable.ic_camd_widget_eye),
+    LauncherDockButtonDescriptor("hvac_power", R.string.label_climate_power, R.drawable.ic_widget_hvac_power),
+    LauncherDockButtonDescriptor("hvac_ac", R.string.label_air_conditioning, R.drawable.ic_widget_hvac_ac),
+    LauncherDockButtonDescriptor("hvac_auto", R.string.label_automatic_climate_control, null),
+    LauncherDockButtonDescriptor("hvac_sync", R.string.label_climate_sync, null),
+    LauncherDockButtonDescriptor("temp_driver", R.string.label_driver_temperature, null),
+    LauncherDockButtonDescriptor("temp_pass", R.string.label_passenger_temperature, null),
+    LauncherDockButtonDescriptor("hvac_heater_level", R.string.label_heater_level, null),
+    LauncherDockButtonDescriptor("audio_volume", R.string.label_volume_control, null),
+    LauncherDockButtonDescriptor("screen_brightness", R.string.label_screen_brightness, null),
+    LauncherDockButtonDescriptor("hvac_pm25", R.string.label_pm2_5_purification, R.drawable.ic_widget_pm25_on),
+    LauncherDockButtonDescriptor("hvac_fan_speed", R.string.label_fan_speed, R.drawable.ic_widget_fan),
+    LauncherDockButtonDescriptor("hvac_fan_direction", R.string.label_airflow_direction, R.drawable.ic_widget_fan_face_feet),
+    LauncherDockButtonDescriptor("seat_heat_left", R.string.label_driver_seat_heating, R.drawable.ic_widget_seat_heat_left),
+    LauncherDockButtonDescriptor("seat_vent_left", R.string.label_driver_seat_ventilation, R.drawable.ic_widget_seat_vent_left),
+    LauncherDockButtonDescriptor("seat_heat_right", R.string.label_passenger_seat_heating, R.drawable.ic_widget_seat_heat_right),
+    LauncherDockButtonDescriptor("seat_vent_right", R.string.label_passenger_seat_ventilation, R.drawable.ic_widget_seat_vent_right),
+    LauncherDockButtonDescriptor("seat_heat_rear_left", R.string.label_rear_left_seat_heating, R.drawable.ic_widget_seat_heat_left),
+    LauncherDockButtonDescriptor("seat_heat_rear_right", R.string.label_rear_right_seat_heating, R.drawable.ic_widget_seat_heat_right),
+    LauncherDockButtonDescriptor("recirc", R.string.launcher_vs_climate_recirc, R.drawable.ic_widget_hvac_air_recirculation),
+    LauncherDockButtonDescriptor("steering_heat", R.string.launcher_vs_steering_heat, R.drawable.ic_widget_steering_wheel_heat),
+    LauncherDockButtonDescriptor("windscreen_heat", R.string.label_windshield_heating, R.drawable.ic_widget_front_windscreen_heat),
+    LauncherDockButtonDescriptor("front_defrost", R.string.label_windshield_defogger, R.drawable.ic_widget_hvac_defroster_front),
+    LauncherDockButtonDescriptor("rear_defrost", R.string.label_rear_window_defroster, R.drawable.ic_widget_rear_window_mirrors_defrost),
+    LauncherDockButtonDescriptor("headlights", R.string.label_headlight_switch, R.drawable.ic_headlights_auto),
+    LauncherDockButtonDescriptor("home_nav", R.string.launcher_edge_action_home),
+    LauncherDockButtonDescriptor("back_nav", R.string.label_back_button, R.drawable.undo_24),
+    LauncherDockButtonDescriptor("all_apps", R.string.label_all_apps, R.drawable.ic_all_apps_dock),
+    LauncherDockButtonDescriptor("undo_nav", R.string.label_previous_app, R.drawable.ic_undo_app),
+    LauncherDockButtonDescriptor("close_apps", R.string.label_close_apps, R.drawable.close_apps_24),
+    LauncherDockButtonDescriptor("dcl_log", R.string.launcher_dcl_logs_button_title, R.drawable.menu_icon_log),
+    LauncherDockButtonDescriptor("car_dialer", R.string.label_phone, R.drawable.ic_widget_phone),
+    LauncherDockButtonDescriptor("radio_app", R.string.label_radio, R.drawable.radio_vtkb246z55e9),
+    LauncherDockButtonDescriptor("avm_camera", R.string.label_360_cameras, R.drawable.ic_launcher_avm),
+    LauncherDockButtonDescriptor("camd_widget", R.string.camd_widget_title, R.drawable.ic_camd_widget_eye),
 )
 
 @Composable
@@ -332,7 +335,7 @@ internal fun LauncherDockSlotPickerContent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Добавить иконку в слот №${slotIndex + 1}",
+                        text = launcherText(R.string.label_add_an_icon_to_slot, slotIndex + 1),
                         color = LauncherColors.TextPrimary,
                         fontSize = 19.sp,
                         fontWeight = FontWeight.Bold,
@@ -345,16 +348,16 @@ internal fun LauncherDockSlotPickerContent(
                 var flashingPresetKey by remember { mutableStateOf<String?>(null) }
                 val presetsRevision by LauncherAppConfigStore.bottomSlotsRevisionFlow.collectAsStateWithLifecycle()
 
-                val presetItems = remember {
+                val presetItems = remember(LauncherStrings.language) {
                     listOf(
-                        "summer" to "Лето",
-                        "winter" to "Зима",
-                        "general" to "Общее",
+                        "summer" to launcherText(R.string.label_summer),
+                        "winter" to launcherText(R.string.label_winter),
+                        "general" to launcherText(R.string.label_general),
                     )
                 }
 
                 Text(
-                    text = "Пресеты кнопок",
+                    text = launcherText(R.string.label_button_presets),
                     color = LauncherColors.TextMuted,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
@@ -397,7 +400,7 @@ internal fun LauncherDockSlotPickerContent(
                                             delay(3000L)
                                             isSaved = true
                                             LauncherAppConfigStore.saveBottomSlotsPreset(context, presetKey)
-                                            Toast.makeText(context, "Пресет «$presetName» сохранен", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, launcherText(R.string.label_preset_saved, presetName), Toast.LENGTH_SHORT).show()
                                             flashingPresetKey = presetKey
                                             delay(600L)
                                             flashingPresetKey = null
@@ -411,10 +414,10 @@ internal fun LauncherDockSlotPickerContent(
                                             if (elapsed < 3000L) {
                                                 val applied = LauncherAppConfigStore.applyBottomSlotsPreset(context, presetKey)
                                                 if (applied) {
-                                                    Toast.makeText(context, "Применен пресет «$presetName»", Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(context, launcherText(R.string.label_preset_applied, presetName), Toast.LENGTH_SHORT).show()
                                                     onDismiss()
                                                 } else {
-                                                    Toast.makeText(context, "Пресет «$presetName» не сохранен (зажмите на 3 сек)", Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(context, launcherText(R.string.label_preset_has_not_been_saved_hold_for_3_seconds, presetName), Toast.LENGTH_SHORT).show()
                                                 }
                                             }
                                         }
@@ -434,7 +437,7 @@ internal fun LauncherDockSlotPickerContent(
                                     fontWeight = FontWeight.Bold,
                                 )
                                 Text(
-                                    text = if (isFlashing) "Сохранено!" else if (hasPreset) "Сохранен" else "Пусто (3с)",
+                                    text = if (isFlashing) launcherText(R.string.label_saved) else if (hasPreset) launcherText(R.string.label_saved_2) else launcherText(R.string.label_empty_3_s),
                                     color = if (isFlashing) Color.White else if (hasPreset) LauncherColors.AccentCyan else LauncherColors.TextMuted.copy(alpha = 0.7f),
                                     fontSize = 10.sp,
                                 )
@@ -445,7 +448,7 @@ internal fun LauncherDockSlotPickerContent(
 
                 if (missingButtons.isNotEmpty()) {
                     Text(
-                        text = "Иконки климата",
+                        text = launcherText(R.string.label_climate_icons),
                         color = LauncherColors.TextMuted,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
@@ -473,21 +476,21 @@ internal fun LauncherDockSlotPickerContent(
                                 ) {
                                     if (btn.id == "hvac_sync" || btn.id == "hvac_auto") {
                                         Text(
-                                            text = if (btn.id == "hvac_sync") "SYNC" else "AUTO",
+                                            text = stringResource(if (btn.id == "hvac_sync") R.string.badge_climate_sync else R.string.launcher_vs_climate_auto),
                                             color = pickerIconColor,
                                             fontSize = 14.sp,
                                             fontWeight = FontWeight.Bold,
                                         )
                                     } else if (btn.id == "temp_driver" || btn.id == "temp_pass") {
                                         Text(
-                                            text = if (btn.id == "temp_driver") "t° В" else "t° П",
+                                            text = if (btn.id == "temp_driver") launcherText(R.string.label_driver_temp) else launcherText(R.string.label_pass_temp),
                                             color = pickerIconColor,
                                             fontSize = 15.sp,
                                             fontWeight = FontWeight.Bold,
                                         )
                                     } else if (btn.id == "hvac_heater_level") {
                                         Text(
-                                            text = "Печка",
+                                            text = launcherText(R.string.label_heater),
                                             color = pickerIconColor,
                                             fontSize = 14.sp,
                                             fontWeight = FontWeight.Bold,
@@ -597,7 +600,7 @@ internal fun LauncherDockSlotPickerContent(
 
                 if (pickerApps.isNotEmpty()) {
                     Text(
-                        text = "Приложения",
+                        text = launcherText(R.string.settings_floating_usage_stats_hide_column_apps),
                         color = LauncherColors.TextMuted,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
@@ -654,7 +657,7 @@ internal fun LauncherDockSlotPickerContent(
 
                 if (splitPresets.isNotEmpty()) {
                     Text(
-                        text = "Сплит-экраны",
+                        text = launcherText(R.string.label_split_screens),
                         color = LauncherColors.TextMuted,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
@@ -706,7 +709,7 @@ internal fun LauncherDockSlotPickerContent(
                                     )
                                 }
                                 Text(
-                                    text = preset.name,
+                                    text = preset.displayName,
                                     color = LauncherColors.TextPrimary,
                                     fontSize = 13.sp,
                                     maxLines = 1,
@@ -987,7 +990,7 @@ fun LauncherBottomBar(
                                                 if (plusIconAlpha > 0.001f) {
                                                     Icon(
                                                         imageVector = Icons.Filled.Add,
-                                                        contentDescription = "Добавить иконку",
+                                                        contentDescription = launcherText(R.string.launcher_grid_add_icon_cd),
                                                         tint = Color.White.copy(alpha = plusIconAlpha),
                                                         modifier = Modifier.size(14.dp),
                                                     )
@@ -1096,7 +1099,7 @@ fun LauncherBottomBar(
                                         if (plusIconAlpha > 0.001f) {
                                             Icon(
                                                 imageVector = Icons.Filled.Add,
-                                                contentDescription = "Добавить иконку",
+                                                contentDescription = launcherText(R.string.launcher_grid_add_icon_cd),
                                                 tint = Color.White.copy(alpha = plusIconAlpha),
                                                 modifier = Modifier.size(14.dp),
                                             )
@@ -1295,7 +1298,7 @@ private fun LauncherDraggableUnifiedSlot(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "Удалить",
+                        contentDescription = launcherText(R.string.action_delete),
                         tint = Color.White,
                         modifier = Modifier.size(24.dp),
                     )
@@ -1342,7 +1345,7 @@ private fun LauncherBottomDockButtonContent(
             val tint = if (isSyncOn) HvacOnColor else HvacOffColor
             LauncherDockIcon(onClick = { sendToggleHvacSync(context) }) {
                 Text(
-                    text = "SYNC",
+                    text = stringResource(R.string.badge_climate_sync),
                     color = tint,
                     fontSize = dockSp(10.4f),
                     fontWeight = FontWeight.Bold,
@@ -1358,7 +1361,7 @@ private fun LauncherBottomDockButtonContent(
                 val tint = if (isOn) Color(0xFF22C55E) else HvacOffColor
                 Image(
                     painter = painterResource(drawableRes),
-                    contentDescription = "Очистка воздуха PM 2.5",
+                    contentDescription = launcherText(R.string.label_pm2_5_air_purification),
                     colorFilter = ColorFilter.tint(tint),
                     modifier = Modifier.size(dockDp(26.4f)),
                 )
@@ -1372,7 +1375,7 @@ private fun LauncherBottomDockButtonContent(
                 val tint = if (isOn) HvacOnColor else HvacOffColor
                 Image(
                     painter = painterResource(R.drawable.ic_widget_hvac_power),
-                    contentDescription = "Питание климата",
+                    contentDescription = launcherText(R.string.label_climate_power),
                     colorFilter = ColorFilter.tint(tint),
                     modifier = Modifier.size(dockDp(26.4f)),
                 )
@@ -1400,7 +1403,7 @@ private fun LauncherBottomDockButtonContent(
                     )
                     Image(
                         painter = painterResource(R.drawable.ic_widget_fan),
-                        contentDescription = "Скорость вентилятора",
+                        contentDescription = launcherText(R.string.label_fan_speed),
                         colorFilter = ColorFilter.tint(iconTint),
                         modifier = Modifier.size(dockDp(21.6f)),
                     )
@@ -1414,7 +1417,7 @@ private fun LauncherBottomDockButtonContent(
                 val tint = if (isOn) HvacOnColor else HvacOffColor
                 Image(
                     painter = painterResource(R.drawable.ic_widget_hvac_ac),
-                    contentDescription = "Кондиционер AC",
+                    contentDescription = launcherText(R.string.label_air_conditioning),
                     colorFilter = ColorFilter.tint(tint),
                     modifier = Modifier.size(dockDp(26.4f)),
                 )
@@ -1432,7 +1435,7 @@ private fun LauncherBottomDockButtonContent(
             LauncherDockIcon(onClick = { sendCycleHvacFanDirection(context) }) {
                 Image(
                     painter = painterResource(drawableRes),
-                    contentDescription = "Направление обдува",
+                    contentDescription = launcherText(R.string.label_airflow_direction),
                     colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                     modifier = Modifier.size(dockDp(31.68f)),
                 )
@@ -1482,7 +1485,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_all_apps_dock),
-                contentDescription = "Все приложения",
+                contentDescription = launcherText(R.string.label_all_apps),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(21.42f)),
             )
@@ -1494,7 +1497,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_undo_app),
-                contentDescription = "Предыдущее приложение",
+                contentDescription = launcherText(R.string.label_previous_app),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(36.29f)),
             )
@@ -1506,7 +1509,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.close_apps_24),
-                contentDescription = "Закрыть приложения",
+                contentDescription = launcherText(R.string.label_close_apps),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(28.98f)),
             )
@@ -1544,13 +1547,13 @@ private fun LauncherBottomDockButtonContent(
                 onClick = {
                     if (vad.dashing.tbox.DclLogRecorder.isLoggingActive()) {
                         vad.dashing.tbox.DclLogRecorder.stopLogging("Stopped by user via bottom bar button")
-                        Toast.makeText(context, context.getString(R.string.launcher_dcl_logs_stopped_toast), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, launcherText(R.string.launcher_dcl_logs_stopped_toast), Toast.LENGTH_SHORT).show()
                     } else {
                         if (!vad.dashing.tbox.DclLogRecorder.hasStoragePermission(context)) {
                             showPermissionDialog = true
                         } else {
                             vad.dashing.tbox.DclLogRecorder.startSession(context, durationMs = 300_000L)
-                            Toast.makeText(context, context.getString(R.string.launcher_dcl_logs_started_toast), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, launcherText(R.string.launcher_dcl_logs_started_toast), Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
@@ -1570,7 +1573,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_widget_phone),
-                contentDescription = "Телефон",
+                contentDescription = launcherText(R.string.label_phone),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(25.2f)),
             )
@@ -1582,7 +1585,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.radio_vtkb246z55e9),
-                contentDescription = "Радио",
+                contentDescription = launcherText(R.string.label_radio),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(28f)),
             )
@@ -1599,7 +1602,7 @@ private fun LauncherBottomDockButtonContent(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_avm),
-                contentDescription = "Камеры 360",
+                contentDescription = launcherText(R.string.label_360_cameras),
                 colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                 modifier = Modifier.size(dockDp(26f)),
             )
@@ -1669,7 +1672,7 @@ private fun LauncherBottomDockButtonContent(
             val tint = if (isAutoOn) HvacOnColor else HvacOffColor
             LauncherDockIcon(onClick = { sendToggleHvacAuto(context) }) {
                 Text(
-                    text = "AUTO",
+                    text = stringResource(R.string.launcher_vs_climate_auto),
                     color = tint,
                     fontSize = dockSp(10.4f),
                     fontWeight = FontWeight.Bold,
@@ -1824,8 +1827,8 @@ private fun LauncherBottomDockButtonContent(
 
                 LauncherDockIcon(onClick = {
                     val execName = displayTitle.ifBlank { autoItem?.name ?: autoId }
-                    val execMsg = context.getString(R.string.launcher_tbm_automation_executed, execName)
-                    val failMsg = context.getString(R.string.launcher_tbm_automation_failed, execName, "Error")
+                    val execMsg = launcherText(R.string.launcher_tbm_automation_executed, execName)
+                    val failMsg = launcherText(R.string.launcher_tbm_automation_failed, execName, launcherText(R.string.label_error))
                     CoroutineScope(Dispatchers.Main).launch {
                         val res = tbmRepository.runAutomation(autoId)
                         if (res.getOrDefault(false)) {
@@ -1864,7 +1867,7 @@ private fun LauncherBottomDockButtonContent(
                     LauncherDockIcon(onClick = { launchLauncherApp(context, pkg) }) {
                         Image(
                             painter = painterResource(R.drawable.radio_vtkb246z55e9),
-                            contentDescription = "Радио",
+                            contentDescription = launcherText(R.string.label_radio),
                             colorFilter = ColorFilter.tint(if (LauncherThemeState.darkTheme) Color(0xFF9CA3AF) else Color(0xFF374151)),
                             modifier = Modifier.size(dockDp(28f)),
                         )
@@ -2147,7 +2150,7 @@ private fun LauncherVolumeStepper(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_speaker_minus),
-                contentDescription = "Уменьшить громкость",
+                contentDescription = launcherText(R.string.label_decrease_volume),
                 colorFilter = ColorFilter.tint(LauncherColors.TextSecondary),
                 modifier = Modifier.size(dockDp(20.57f)),
             )
@@ -2167,7 +2170,7 @@ private fun LauncherVolumeStepper(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_speaker_plus),
-                contentDescription = "Увеличить громкость",
+                contentDescription = launcherText(R.string.label_increase_volume),
                 colorFilter = ColorFilter.tint(LauncherColors.TextSecondary),
                 modifier = Modifier.size(dockDp(20.57f)),
             )
@@ -2192,7 +2195,7 @@ private fun LauncherBrightnessStepper(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_brightness_minus),
-                contentDescription = "Уменьшить яркость",
+                contentDescription = launcherText(R.string.label_decrease_brightness),
                 colorFilter = ColorFilter.tint(LauncherColors.TextSecondary),
                 modifier = Modifier.size(dockDp(18.7f)),
             )
@@ -2212,7 +2215,7 @@ private fun LauncherBrightnessStepper(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_brightness_plus),
-                contentDescription = "Увеличить яркость",
+                contentDescription = launcherText(R.string.label_increase_brightness),
                 colorFilter = ColorFilter.tint(LauncherColors.TextSecondary),
                 modifier = Modifier.size(dockDp(18.7f)),
             )

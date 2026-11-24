@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
@@ -52,7 +53,6 @@ import vad.dashing.tbox.ui.theme.tboxHeadline
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 @Composable
 fun LauncherBackupSection(
@@ -180,7 +180,7 @@ fun LauncherBackupSection(
                             }
                             .onFailure { err ->
                                 isError = true
-                                statusMessage = "Ошибка создания бэкапа: ${err.message}"
+                                statusMessage = launcherText(R.string.label_backup_failed, err.message)
                                 Toast.makeText(context, statusMessage, Toast.LENGTH_LONG).show()
                             }
                     }
@@ -252,7 +252,7 @@ fun RestoreBackupDialog(
             scope.launch {
                 LauncherBackupManager.restoreBackupFromUri(context, uri)
                     .onSuccess { onRestoreSuccess() }
-                    .onFailure { err -> errorMessage = "Ошибка чтения файла: ${err.message}" }
+                    .onFailure { err -> errorMessage = launcherText(R.string.label_could_not_read_file, err.message) }
             }
         }
     }
@@ -270,7 +270,8 @@ fun RestoreBackupDialog(
         }.getOrDefault(emptyList())
     }
 
-    val dateFormat = remember { SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()) }
+    val displayLocale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
+    val dateFormat = remember(displayLocale) { SimpleDateFormat("dd.MM.yyyy HH:mm", displayLocale) }
 
     LauncherDarkAlertDialog(
         onDismissRequest = onDismiss,
@@ -306,12 +307,12 @@ fun RestoreBackupDialog(
                     FilterChip(
                         selected = currentDir == downloadsDir,
                         onClick = { currentDir = downloadsDir },
-                        label = { Text("Downloads", fontSize = 11.sp) },
+                        label = { Text(launcherText(R.string.label_downloads), fontSize = 11.sp) },
                     )
                     FilterChip(
                         selected = currentDir == rootStorageDir,
                         onClick = { currentDir = rootStorageDir },
-                        label = { Text("Память", fontSize = 11.sp) },
+                        label = { Text(launcherText(R.string.label_storage), fontSize = 11.sp) },
                     )
                 }
 
@@ -329,7 +330,7 @@ fun RestoreBackupDialog(
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                     ) {
                         Text(
-                            text = "📁  ..  (на уровень вверх)",
+                            text = launcherText(R.string.label_parent_folder),
                             style = MaterialTheme.typography.tboxBody,
                             color = LauncherColors.AccentCyan,
                             fontSize = 13.sp,
@@ -339,7 +340,7 @@ fun RestoreBackupDialog(
 
                 if (filesList.isEmpty()) {
                     Text(
-                        text = "Папка пуста",
+                        text = launcherText(R.string.label_folder_is_empty),
                         style = MaterialTheme.typography.tboxBody,
                         color = LauncherColors.TextMuted,
                         modifier = Modifier.padding(vertical = 12.dp),
@@ -372,7 +373,7 @@ fun RestoreBackupDialog(
                                             scope.launch {
                                                 LauncherBackupManager.restoreBackupFromFile(context, file)
                                                     .onSuccess { onRestoreSuccess() }
-                                                    .onFailure { err -> errorMessage = "Ошибка импорта: ${err.message}" }
+                                                    .onFailure { err -> errorMessage = launcherText(R.string.toast_backup_import_error, err.message) }
                                             }
                                         }
                                     }
@@ -422,7 +423,7 @@ fun RestoreBackupDialog(
                         runCatching {
                             safLauncher.launch("*/*")
                         }.onFailure {
-                            errorMessage = "Системный выбор файлов недоступен"
+                            errorMessage = launcherText(R.string.label_system_file_picker_unavailable)
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
@@ -481,7 +482,7 @@ fun RestoredRebootDialog(
                     },
                 ) {
                     Text(
-                        text = "Перезапустить лаунчер",
+                        text = launcherText(R.string.label_restart_launcher),
                         color = LauncherColors.AccentCyan,
                         style = MaterialTheme.typography.tboxButton,
                     )

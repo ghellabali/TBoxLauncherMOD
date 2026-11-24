@@ -1,5 +1,7 @@
 package vad.dashing.tbox.backup
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -256,7 +258,7 @@ object LauncherBackupManager {
         runCatching {
             val jsonText = context.contentResolver.openInputStream(uri)?.use { stream ->
                 stream.bufferedReader(Charsets.UTF_8).readText()
-            } ?: throw IllegalArgumentException("Не удалось открыть файл: $uri")
+            } ?: throw IllegalArgumentException(launcherText(R.string.label_could_not_open_file, uri))
             val backupFile = if (uri.scheme == "file") uri.path?.let { File(it) } else null
             restoreBackupFromJsonText(context, jsonText, backupFile).getOrThrow()
         }

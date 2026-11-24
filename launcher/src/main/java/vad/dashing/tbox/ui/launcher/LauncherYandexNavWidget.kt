@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,7 +43,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -283,7 +283,7 @@ internal fun LauncherNavTrafficLightOverlay(
                         .padding(horizontal = (6 * scale).dp, vertical = (3 * scale).dp),
                 ) {
                     Text(
-                        text = "$dist м",
+                        text = launcherText(R.string.label_m, dist),
                         color = primaryTextColor,
                         fontSize = (12 * scale).sp,
                         fontWeight = FontWeight.Bold,
@@ -559,9 +559,9 @@ internal fun LauncherNavBgManeuverOverlay(
 
     val primaryBmp = navState.maneuverPrimaryIcon ?: navState.maneuverBitmap
     val secondaryBmp = navState.maneuverSecondaryIcon
-    val distance = navState.maneuverDistance ?: if (isSimulate && !navState.isNavigating) "400 м" else null
-    val street = navState.nextStreet ?: if (isSimulate && !navState.isNavigating) "Ленинградский просп." else null
-    val topDesc = navState.maneuverTopDescription ?: if (isSimulate && !navState.isNavigating) "Съезд 2" else null
+    val distance = navState.maneuverDistance ?: if (isSimulate && !navState.isNavigating) launcherText(R.string.label_400_m) else null
+    val street = navState.nextStreet ?: if (isSimulate && !navState.isNavigating) launcherText(R.string.label_leningradsky_avenue) else null
+    val topDesc = navState.maneuverTopDescription ?: if (isSimulate && !navState.isNavigating) launcherText(R.string.label_exit_2) else null
 
     val isVisible = (navState.isNavigating && (distance != null || primaryBmp != null || street != null)) ||
             (isSimulate && distance != null)
@@ -681,8 +681,8 @@ internal fun LauncherNavBgEtaOverlay(
     val navState by YandexNavRepository.state.collectAsStateWithLifecycle()
     val isSimulate = LauncherDevVehicleState.simulateEnabled
 
-    val remDist = navState.remainingDistance ?: if (isSimulate && !navState.isNavigating) "8.4 км" else null
-    val remTime = navState.remainingTime ?: if (isSimulate && !navState.isNavigating) "18 мин" else null
+    val remDist = navState.remainingDistance ?: if (isSimulate && !navState.isNavigating) launcherText(R.string.label_8_4_km) else null
+    val remTime = navState.remainingTime ?: if (isSimulate && !navState.isNavigating) launcherText(R.string.label_18_min) else null
     val arrTime = navState.arrivalTime ?: if (isSimulate && !navState.isNavigating) "18:45" else null
 
     val isVisible = (navState.isNavigating && (remDist != null || remTime != null || arrTime != null)) ||

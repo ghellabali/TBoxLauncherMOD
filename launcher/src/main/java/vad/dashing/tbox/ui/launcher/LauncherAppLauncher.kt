@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.R
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
@@ -69,7 +71,7 @@ internal fun launchLauncherAppFullWidth(
         }
     } ?: resolveLaunchIntent(context, packageName)
     if (intent == null) {
-        Toast.makeText(context, "Не удалось найти запуск для $packageName", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_no_launch_activity_found_for, packageName), Toast.LENGTH_SHORT).show()
         return
     }
     LauncherRightPanelOverlayWindow.hide()
@@ -96,7 +98,7 @@ internal fun launchLauncherAppInAdas(
         }
     } ?: resolveLaunchIntent(context, packageName)
     if (intent == null) {
-        Toast.makeText(context, "Не удалось найти запуск для $packageName", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, launcherText(R.string.label_no_launch_activity_found_for, packageName), Toast.LENGTH_SHORT).show()
         return
     }
     LauncherRightPanelOverlayWindow.hide()
@@ -165,7 +167,7 @@ private fun launchWithTarget(
         Log.w(TAG, "No launch intent for $packageName activity=$activityName")
         Toast.makeText(
             context,
-            "Не удалось найти запуск для $packageName",
+            launcherText(R.string.label_no_launch_activity_found_for, packageName),
             Toast.LENGTH_SHORT,
         ).show()
         return
@@ -212,7 +214,7 @@ internal fun launchAndroidSettings(context: Context) {
         runCatching {
             context.startActivity(intent)
         }.onFailure {
-            Toast.makeText(context, "Не удалось открыть настройки Android", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, launcherText(R.string.label_could_not_open_android_settings), Toast.LENGTH_SHORT).show()
         }
     }
 }
@@ -699,7 +701,7 @@ private fun showLaunchFailed(
     )
     Toast.makeText(
         context,
-        "Не удалось открыть ${packageName.substringAfterLast('.')}",
+        launcherText(R.string.label_could_not_open, packageName.substringAfterLast('.')),
         Toast.LENGTH_LONG,
     ).show()
 }

@@ -141,7 +141,7 @@ class BackgroundService : Service() {
             nm.createNotificationChannel(
                 NotificationChannel(
                     channelId,
-                    getString(R.string.launcher_standalone_app_name),
+                    launcherText(R.string.launcher_standalone_app_name),
                     NotificationManager.IMPORTANCE_LOW,
                 ),
             )
@@ -153,8 +153,8 @@ class BackgroundService : Service() {
             PendingIntent.FLAG_IMMUTABLE,
         )
         val notification: Notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle(getString(R.string.launcher_standalone_app_name))
-            .setContentText(getString(R.string.launcher_standalone_service_running))
+            .setContentTitle(launcherText(R.string.launcher_standalone_app_name))
+            .setContentText(launcherText(R.string.launcher_standalone_service_running))
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pending)
             .setOngoing(true)

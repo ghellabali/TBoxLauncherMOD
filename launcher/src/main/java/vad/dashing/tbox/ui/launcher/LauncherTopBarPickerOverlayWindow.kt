@@ -1,5 +1,8 @@
 package vad.dashing.tbox.ui.launcher
 
+import androidx.compose.ui.res.stringResource
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -68,48 +71,50 @@ import vad.dashing.tbox.ui.theme.TboxAppTheme
 
 internal data class LauncherTopBarItemDescriptor(
     val id: String,
-    val title: String,
+    @androidx.annotation.StringRes val titleResource: Int,
     val isButton: Boolean,
     val iconRes: Int? = null,
-)
+) {
+    val title: String get() = launcherText(titleResource)
+}
 
 internal object LauncherTopBarDescriptors {
     val ALL_INDICATORS = listOf(
-        LauncherTopBarItemDescriptor("time", "Время", isButton = false, iconRes = R.drawable.ic_launcher_trip_duration),
-        LauncherTopBarItemDescriptor("date", "Дата и день недели", isButton = false, iconRes = R.drawable.ic_notification),
-        LauncherTopBarItemDescriptor("connectivity", "Индикаторы связи", isButton = false, iconRes = R.drawable.ic_launcher_bluetooth),
-        LauncherTopBarItemDescriptor("temp", "Температура снаружи", isButton = false, iconRes = R.drawable.ic_launcher_temp_up),
-        LauncherTopBarItemDescriptor("inside_temp", "Температура в салоне", isButton = false, iconRes = R.drawable.ic_launcher_temp_down),
-        LauncherTopBarItemDescriptor("combined_temp", "Температура внутри / снаружи", isButton = false, iconRes = R.drawable.ic_launcher_temp_combined),
-        LauncherTopBarItemDescriptor("engine_temp", "Температура двигателя", isButton = false, iconRes = R.drawable.ic_launcher_engine_temp),
-        LauncherTopBarItemDescriptor("gearbox_temp", "Температура коробки передач", isButton = false, iconRes = R.drawable.ic_launcher_gearbox_temp),
-        LauncherTopBarItemDescriptor("fuel", "Бензин / Запас хода", isButton = false, iconRes = R.drawable.ic_launcher_fuel),
-        LauncherTopBarItemDescriptor("avg_fuel", "Средний расход", isButton = false, iconRes = R.drawable.ic_launcher_fuel_drop),
-        LauncherTopBarItemDescriptor("trip_cost", "Стоимость поездки", isButton = false, iconRes = R.drawable.ic_launcher_trip_cost),
-        LauncherTopBarItemDescriptor("trip_duration", "Время поездки", isButton = false, iconRes = R.drawable.ic_launcher_trip_duration),
-        LauncherTopBarItemDescriptor("trip_distance", "Пробег", isButton = false, iconRes = R.drawable.ic_launcher_trip_distance),
-        LauncherTopBarItemDescriptor("air_quality", "Качество воздуха (PM 2.5)", isButton = false, iconRes = R.drawable.ic_launcher_leaf),
-        LauncherTopBarItemDescriptor("voltage", "Вольтаж АКБ", isButton = false, iconRes = R.drawable.ic_launcher_battery),
-        LauncherTopBarItemDescriptor("cpu", "Нагрузка на ЦП", isButton = false, iconRes = R.drawable.ic_launcher_cpu),
-        LauncherTopBarItemDescriptor("ram", "Оперативная память", isButton = false, iconRes = R.drawable.ic_launcher_ram),
-        LauncherTopBarItemDescriptor("gps", "Спутники / Геопозиция", isButton = false, iconRes = R.drawable.ic_launcher_satellite),
-        LauncherTopBarItemDescriptor("maintenance", "Пробег до ТО", isButton = false, iconRes = R.drawable.ic_launcher_maintenance),
-        LauncherTopBarItemDescriptor("vehicle_status", "Статус авто", isButton = false, iconRes = R.drawable.ic_launcher_vehicle_status),
-        LauncherTopBarItemDescriptor("camd_rec", "Видеорегистратор", isButton = false, iconRes = R.drawable.ic_camd_rec_active),
+        LauncherTopBarItemDescriptor("time", R.string.data_title_time_widget, isButton = false, iconRes = R.drawable.ic_launcher_trip_duration),
+        LauncherTopBarItemDescriptor("date", R.string.label_date_and_weekday, isButton = false, iconRes = R.drawable.ic_notification),
+        LauncherTopBarItemDescriptor("connectivity", R.string.label_connectivity_indicators, isButton = false, iconRes = R.drawable.ic_launcher_bluetooth),
+        LauncherTopBarItemDescriptor("temp", R.string.data_title_outside_temperature, isButton = false, iconRes = R.drawable.ic_launcher_temp_up),
+        LauncherTopBarItemDescriptor("inside_temp", R.string.label_cabin_temperature, isButton = false, iconRes = R.drawable.ic_launcher_temp_down),
+        LauncherTopBarItemDescriptor("combined_temp", R.string.label_inside_outside_temperature, isButton = false, iconRes = R.drawable.ic_launcher_temp_combined),
+        LauncherTopBarItemDescriptor("engine_temp", R.string.data_title_engine_temperature, isButton = false, iconRes = R.drawable.ic_launcher_engine_temp),
+        LauncherTopBarItemDescriptor("gearbox_temp", R.string.label_transmission_temperature, isButton = false, iconRes = R.drawable.ic_launcher_gearbox_temp),
+        LauncherTopBarItemDescriptor("fuel", R.string.label_fuel_range, isButton = false, iconRes = R.drawable.ic_launcher_fuel),
+        LauncherTopBarItemDescriptor("avg_fuel", R.string.label_average_consumption, isButton = false, iconRes = R.drawable.ic_launcher_fuel_drop),
+        LauncherTopBarItemDescriptor("trip_cost", R.string.label_trip_cost, isButton = false, iconRes = R.drawable.ic_launcher_trip_cost),
+        LauncherTopBarItemDescriptor("trip_duration", R.string.label_trip_time, isButton = false, iconRes = R.drawable.ic_launcher_trip_duration),
+        LauncherTopBarItemDescriptor("trip_distance", R.string.trips_distance, isButton = false, iconRes = R.drawable.ic_launcher_trip_distance),
+        LauncherTopBarItemDescriptor("air_quality", R.string.label_air_quality_pm2_5, isButton = false, iconRes = R.drawable.ic_launcher_leaf),
+        LauncherTopBarItemDescriptor("voltage", R.string.label_battery_voltage, isButton = false, iconRes = R.drawable.ic_launcher_battery),
+        LauncherTopBarItemDescriptor("cpu", R.string.label_cpu_load, isButton = false, iconRes = R.drawable.ic_launcher_cpu),
+        LauncherTopBarItemDescriptor("ram", R.string.label_memory, isButton = false, iconRes = R.drawable.ic_launcher_ram),
+        LauncherTopBarItemDescriptor("gps", R.string.label_satellites_location, isButton = false, iconRes = R.drawable.ic_launcher_satellite),
+        LauncherTopBarItemDescriptor("maintenance", R.string.label_distance_to_service, isButton = false, iconRes = R.drawable.ic_launcher_maintenance),
+        LauncherTopBarItemDescriptor("vehicle_status", R.string.label_vehicle_status, isButton = false, iconRes = R.drawable.ic_launcher_vehicle_status),
+        LauncherTopBarItemDescriptor("camd_rec", R.string.camd_recorder_title, isButton = false, iconRes = R.drawable.ic_camd_rec_active),
     )
 
     val ALL_BUTTONS = listOf(
-        LauncherTopBarItemDescriptor("headlights", "Переключатель фар", isButton = true, iconRes = R.drawable.ic_widget_headlights),
-        LauncherTopBarItemDescriptor("trunk", "Багажник (двойной тап)", isButton = true, iconRes = R.drawable.ic_launcher_trunk),
-        LauncherTopBarItemDescriptor("hdc", "Помощь на спуске", isButton = true, iconRes = R.drawable.ic_launcher_hdc),
-        LauncherTopBarItemDescriptor("theme", "Тема (День/Ночь)", isButton = true, iconRes = R.drawable.ic_theme_sun),
-        LauncherTopBarItemDescriptor("mirrors", "Складывание зеркал", isButton = true, iconRes = R.drawable.ic_launcher_mirror),
-        LauncherTopBarItemDescriptor("autohold", "Auto Hold", isButton = true),
-        LauncherTopBarItemDescriptor("pdc", "Парктроники", isButton = true, iconRes = R.drawable.ic_widget_parking_radar),
-        LauncherTopBarItemDescriptor("rear_fog", "Задняя ПТФ", isButton = true, iconRes = R.drawable.ic_launcher_rear_fog),
-        LauncherTopBarItemDescriptor("avm", "Камеры 360", isButton = true, iconRes = R.drawable.ic_launcher_avm),
-        LauncherTopBarItemDescriptor("spacer", "Разделитель", isButton = true),
-        LauncherTopBarItemDescriptor("spacer_small", "Разделитель малый", isButton = true),
+        LauncherTopBarItemDescriptor("headlights", R.string.label_headlight_switch, isButton = true, iconRes = R.drawable.ic_widget_headlights),
+        LauncherTopBarItemDescriptor("trunk", R.string.label_trunk_double_tap, isButton = true, iconRes = R.drawable.ic_launcher_trunk),
+        LauncherTopBarItemDescriptor("hdc", R.string.label_hill_descent_assist, isButton = true, iconRes = R.drawable.ic_launcher_hdc),
+        LauncherTopBarItemDescriptor("theme", R.string.label_theme_day_night, isButton = true, iconRes = R.drawable.ic_theme_sun),
+        LauncherTopBarItemDescriptor("mirrors", R.string.launcher_vs_mirror_autofold, isButton = true, iconRes = R.drawable.ic_launcher_mirror),
+        LauncherTopBarItemDescriptor("autohold", R.string.launcher_vs_avh, isButton = true),
+        LauncherTopBarItemDescriptor("pdc", R.string.label_parking_sensors, isButton = true, iconRes = R.drawable.ic_widget_parking_radar),
+        LauncherTopBarItemDescriptor("rear_fog", R.string.label_rear_fog_light, isButton = true, iconRes = R.drawable.ic_launcher_rear_fog),
+        LauncherTopBarItemDescriptor("avm", R.string.label_360_cameras, isButton = true, iconRes = R.drawable.ic_launcher_avm),
+        LauncherTopBarItemDescriptor("spacer", R.string.label_divider, isButton = true),
+        LauncherTopBarItemDescriptor("spacer_small", R.string.label_small_divider, isButton = true),
     )
 }
 
@@ -204,7 +209,7 @@ internal object LauncherTopBarPickerOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     val isDark = LauncherThemeState.darkTheme
                     TboxAppTheme(theme = if (isDark) 2 else 1) {
@@ -309,13 +314,13 @@ internal fun LauncherTopBarPickerContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Добавить в статус-бар",
+                    text = launcherText(R.string.label_add_to_status_bar),
                     color = LauncherColors.TextPrimary,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 IconButton(onClick = onDismiss, modifier = Modifier.size(30.dp)) {
-                    Icon(Icons.Filled.Close, contentDescription = "Закрыть", tint = LauncherColors.TextMuted)
+                    Icon(Icons.Filled.Close, contentDescription = launcherText(R.string.launcher_paint_picker_close), tint = LauncherColors.TextMuted)
                 }
             }
 
@@ -349,7 +354,7 @@ internal fun LauncherTopBarPickerContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Показатель 4G (TBox)",
+                    text = launcherText(R.string.label_4g_indicator_tbox),
                     color = LauncherColors.TextPrimary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
@@ -380,7 +385,7 @@ internal fun LauncherTopBarPickerContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Показатель 4G (Wi-Fi модем TBM)",
+                    text = launcherText(R.string.label_4g_indicator_tbm_wi_fi_modem),
                     color = LauncherColors.TextPrimary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
@@ -411,7 +416,7 @@ internal fun LauncherTopBarPickerContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Обводка показателей",
+                    text = launcherText(R.string.label_indicator_outlines),
                     color = LauncherColors.TextPrimary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
@@ -442,7 +447,7 @@ internal fun LauncherTopBarPickerContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Обводка у времени и сигнала",
+                    text = launcherText(R.string.label_outlines_around_time_and_signal),
                     color = LauncherColors.TextPrimary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
@@ -459,7 +464,7 @@ internal fun LauncherTopBarPickerContent(
 
             // Section 1: Кнопки
             Text(
-                text = "Кнопки",
+                text = launcherText(R.string.label_buttons),
                 color = LauncherColors.TextSecondary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -467,7 +472,7 @@ internal fun LauncherTopBarPickerContent(
 
             if (availableButtons.isEmpty()) {
                 Text(
-                    text = "Все кнопки уже добавлены",
+                    text = launcherText(R.string.label_all_buttons_have_been_added),
                     color = LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -505,7 +510,7 @@ internal fun LauncherTopBarPickerContent(
                                     )
                                 } else if (desc.id == "autohold") {
                                     Text(
-                                        text = "HOLD",
+                                        text = stringResource(R.string.badge_hold),
                                         color = LauncherColors.TextPrimary,
                                         fontSize = 8.sp,
                                         fontWeight = FontWeight.Bold,
@@ -554,7 +559,7 @@ internal fun LauncherTopBarPickerContent(
 
             // Section 2: Показатели
             Text(
-                text = "Показатели",
+                text = launcherText(R.string.label_indicators),
                 color = LauncherColors.TextSecondary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -562,7 +567,7 @@ internal fun LauncherTopBarPickerContent(
 
             if (availableIndicators.isEmpty()) {
                 Text(
-                    text = "Все показатели уже добавлены",
+                    text = launcherText(R.string.label_all_indicators_have_been_added),
                     color = LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(vertical = 4.dp),

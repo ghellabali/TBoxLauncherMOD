@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -80,14 +81,10 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import vad.dashing.tbox.LauncherWindowState
 import vad.dashing.tbox.R
 import kotlin.math.abs
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 private data class Snowflake(
     var x: Float,
@@ -1307,7 +1304,7 @@ private fun DrawScope.drawFrontObject(
     val distanceColor = if (alert) Color(0xFFEF4444) else LauncherColors.AccentCyan
     val labelColor = distanceColor.copy(alpha = effectiveAlpha)
 
-    val text = "${distanceM} м"
+    val text = launcherText(R.string.label_m, distanceM)
     val baseSizeSp = distanceTextSizeSp.toFloat()
     val paint = Paint().apply {
         isAntiAlias = true

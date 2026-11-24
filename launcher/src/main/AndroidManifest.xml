@@ -146,7 +146,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/launcher_standalone_app_name"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.TBox"
         android:usesCleartextTraffic="true"
         android:largeHeap="true"

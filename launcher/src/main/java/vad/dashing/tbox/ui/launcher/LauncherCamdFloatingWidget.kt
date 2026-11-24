@@ -1,5 +1,6 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
 import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -108,7 +109,7 @@ internal fun CamdDockWidgetButton(
                     // Left button: Left / Right (-135°)
                     CamdFlyingButton(
                         iconRes = R.drawable.ic_camd_widget_left_right,
-                        contentDescription = "Камеры Право / Лево",
+                        contentDescription = launcherText(R.string.label_right_left_cameras),
                         size = flyoutSizeDp,
                         angleDeg = -135.0,
                         distance = radialDistanceDp,
@@ -124,7 +125,7 @@ internal fun CamdDockWidgetButton(
                     // Center button: Up / Down (-90°)
                     CamdFlyingButton(
                         iconRes = R.drawable.ic_camd_widget_up_down,
-                        contentDescription = "Камеры Верх / Низ",
+                        contentDescription = launcherText(R.string.label_top_bottom_cameras),
                         size = flyoutSizeDp,
                         angleDeg = -90.0,
                         distance = radialDistanceDp,
@@ -140,7 +141,7 @@ internal fun CamdDockWidgetButton(
                     // Right button: 360 (-45°)
                     CamdFlyingButton(
                         iconRes = R.drawable.ic_camd_widget_360,
-                        contentDescription = "Камеры 360",
+                        contentDescription = launcherText(R.string.label_360_cameras),
                         size = flyoutSizeDp,
                         angleDeg = -45.0,
                         distance = radialDistanceDp,
@@ -166,7 +167,7 @@ internal fun CamdDockWidgetButton(
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_camd_widget_eye),
-                contentDescription = "Виджет камер",
+                contentDescription = launcherText(R.string.camd_widget_title),
                 colorFilter = ColorFilter.tint(iconTint),
                 modifier = Modifier.size(dockDp(26f * 1.15f)),
             )

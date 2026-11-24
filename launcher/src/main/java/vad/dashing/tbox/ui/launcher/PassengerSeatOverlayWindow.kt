@@ -1,5 +1,7 @@
 package vad.dashing.tbox.ui.launcher
 
+import vad.dashing.tbox.launcherText
+import vad.dashing.tbox.setLauncherContent
 import android.content.Context
 import android.graphics.PixelFormat
 import android.util.Log
@@ -130,7 +132,7 @@ internal object PassengerSeatOverlayWindow {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(activity)
-            setContent {
+            setLauncherContent {
                 ProvideUiClickSounds {
                     val isDark = LauncherThemeState.darkTheme
                     TboxAppTheme(theme = if (isDark) 2 else 1) {
@@ -297,7 +299,7 @@ internal fun PassengerSeatAdjustContent(
                     colorFilter = ColorFilter.tint(LauncherColors.TextPrimary),
                 )
                 Text(
-                    text = "Регулировка пассажирского сиденья",
+                    text = launcherText(R.string.label_adjust_passenger_seat),
                     color = LauncherColors.TextPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -306,7 +308,7 @@ internal fun PassengerSeatAdjustContent(
             IconButton(onClick = onDismiss, modifier = Modifier.size(28.dp)) {
                 Icon(
                     imageVector = Icons.Filled.Close,
-                    contentDescription = "Close",
+                    contentDescription = launcherText(R.string.launcher_paint_picker_close),
                     tint = LauncherColors.TextSecondary,
                 )
             }
@@ -323,19 +325,19 @@ internal fun PassengerSeatAdjustContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "◄ Вперед",
+                    text = launcherText(R.string.label_forward),
                     color = if (sliderBackrest < -0.15f) LauncherColors.AccentCyan else LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Наклон спинки",
+                    text = launcherText(R.string.label_backrest_angle),
                     color = LauncherColors.TextPrimary,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
                 Text(
-                    text = "Назад ►",
+                    text = launcherText(R.string.label_back),
                     color = if (sliderBackrest > 0.15f) LauncherColors.AccentCyan else LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
@@ -367,19 +369,19 @@ internal fun PassengerSeatAdjustContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "◄ Вперед",
+                    text = launcherText(R.string.label_forward),
                     color = if (sliderPosition < -0.15f) LauncherColors.AccentCyan else LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Положение кресла",
+                    text = launcherText(R.string.label_seat_position),
                     color = LauncherColors.TextPrimary,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
                 Text(
-                    text = "Назад ►",
+                    text = launcherText(R.string.label_back),
                     color = if (sliderPosition > 0.15f) LauncherColors.AccentCyan else LauncherColors.TextMuted,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
