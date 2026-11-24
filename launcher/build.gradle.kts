@@ -12,9 +12,9 @@ val localProperties = Properties().apply {
     }
 }
 
-fun otaPublicKey(propertyName: String): String =
+fun otaPublicKey(propertyName: String, fallback: String = "https://cloud.mail.ru/public/yT4V/JC5C1FwA9"): String =
     localProperties.getProperty(propertyName)?.trim().takeUnless { it.isNullOrBlank() }
-        ?: "https://cloud.mail.ru/public/yT4V/JC5C1FwA9"
+        ?: fallback
 
 android {
     namespace = "vad.dashing.tbox"
@@ -53,7 +53,16 @@ android {
         }
         create("en") {
             dimension = "language"
-            versionNameSuffix = "-en"
+            // First independent EN/FR/AR release, based on upstream 0.8.32.
+            versionName = "0.8.32-l10n.1"
+            versionCode = providers.gradleProperty("launcherVersionCode").orNull?.toInt() ?: 108
+            // A separately signed release needs its own update channel.
+            for ((field, key) in mapOf(
+                "UPDATE_RELEASE_PUBLIC_KEY" to "launcher.personalUpdate.releasePublicKey",
+                "UPDATE_DEV_PUBLIC_KEY" to "launcher.personalUpdate.devPublicKey",
+            )) {
+                buildConfigField("String", field, "\"${otaPublicKey(key, "")}\"")
+            }
         }
     }
     buildTypes {
